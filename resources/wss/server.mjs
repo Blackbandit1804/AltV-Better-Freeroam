@@ -4,5 +4,9 @@ const limit=1;
 
 
 alt.onClient("playerGiveWeapon",(e,a)=>{
-	alt.emit('GlobalSystems:GiveWeapon', e, alt.hash(a), 500, !1);
+	GiveWeapon( e, alt.hash(a), 500, !1);
 });
+
+function GiveWeapon(player, weaponHash, ammo, selectWeapon){
+	alt.emit('GlobalSystems:GiveWeapon', player, weaponHash, ammo, selectWeapon);
+}

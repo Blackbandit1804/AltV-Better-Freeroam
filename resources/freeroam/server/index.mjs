@@ -704,32 +704,35 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
     player.spawn(spawn.x, spawn.y, spawn.z, 0);
     alt.emitClient(player, "freeroam:spawned");
     alt.emitClient(player, "freeroam:Interiors");
-
     setTimeout(function(){ 
         if(player !== undefined){
             let playerCount = alt.Player.all.length;
             chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${playerCount} players online)`);
             chat.send(player, "{80eb34}Press {34dfeb}T {80eb34}and type {34dfeb}/help {80eb34}to see all available commands..");
-			chat.send(player, "{80eb34}Quick Start: {34dfeb}F1={80eb34}Weapon Menu {34dfeb}F2={80eb34}Car Spawner");
         }
     }, 1000);
-	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 500, false);
+	GiveWeapon(player, alt.hash("gadget_parachute"), 500, false);
 });
 
-alt.on('playerDeath', (player, killer, weapon) => {
-    var spawn = spawns[randomNumber(0, spawns.length - 1)];
+alt.on('playerDeath', (player, killer) => {
+    var spawn = spawns[getRandomListEntry(spawns)];
     alt.emitClient(player, "freeroam:switchInOutPlayer", false, 0, 2);
     setTimeout(function(){
         if(player !== undefined){
-            player.spawn(spawn.x, spawn.y, spawn.z, 0);
+			player.spawn(spawn.x, spawn.y, spawn.z, 0);
             alt.emitClient(player, "freeroam:switchInOutPlayer", true);
             alt.emitClient(player, "freeroam:clearPedBloodDamage");
         }
     }, 3000);
+    alt.log(`${killer.name} gave ${player.name} the rest!`);
 
     SendNotificationToAllPlayer(`~r~<C>${killer.name}</C> ~s~killed ~b~<C>${player.name}</C>`);
-	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 500, false);
+	GiveWeapon(player, alt.hash("gadget_parachute"), 500, false);
 });
+
+function GiveWeapon(player, weaponHash, ammo, selectWeapon){
+	alt.emit('GlobalSystems:GiveWeapon', player, weaponHash, ammo, selectWeapon);
+}
 
 function SendNotificationToPlayer(player, message, textColor=0, bgColor=2, blink=false){
     alt.emitClient(player, "freeroam:sendNotification", textColor, bgColor, message, blink);
