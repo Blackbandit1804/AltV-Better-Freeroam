@@ -30,7 +30,7 @@
                         <hr data-content="Results"></hr>
                         <template v-for="vehicle in storage">
                             <a class="vehicle" v-on:click="select(vehicle.model)">
-                                <img alt="" :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer">
+                                <img alt="" :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer"></img>
                                 {{ vehicle.model }}
                             </a>
                         </template>
@@ -44,7 +44,7 @@
                                     <template v-for="vehicle in models">
                                         <template v-if="vehicle.category === index">
                                             <a class="vehicle" v-on:click="select(vehicle.model)">
-                                                <img alt="" :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer">
+                                                <img alt="" :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer"></img>
                                                 {{ vehicle.model }}
                                             </a>
                                         </template>

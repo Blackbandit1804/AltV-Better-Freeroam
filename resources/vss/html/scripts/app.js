@@ -120,6 +120,8 @@ let app = new Vue({
             { category: 6, model: 'police3' },
             { category: 6, model: 'police4' },
             { category: 6, model: 'policeb' },
+			{ category: 6, model: 'police2b' },
+			{ category: 6, model: 'polthrust' },
             { category: 6, model: 'polmav' },
             { category: 6, model: 'policeold1' },
             { category: 6, model: 'policeold2' },
