@@ -12,7 +12,7 @@ export default class Weather {
     }
 
 	registerEvents() {
-        alt.on('playerConnect', (player) => {
+        alt.on('GlobalSystems:PlayerReady', (player) => {
             alt.emitClient(player, 'disableClock');
             this.setDate(player);
         });
@@ -44,9 +44,6 @@ export default class Weather {
     }
 
     stopSync(){
-        if(this.interval){
-            clearInterval(this.interval);
-        }
         if(this.dateInterval){
             clearInterval(this.dateInterval);
         }
@@ -54,9 +51,6 @@ export default class Weather {
     }
 
     startSync(){
-        if(this.interval){
-            clearInterval(this.interval);
-        }
         if(this.dateInterval){
             clearInterval(this.dateInterval);
         }

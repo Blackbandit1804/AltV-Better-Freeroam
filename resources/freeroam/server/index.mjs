@@ -708,26 +708,25 @@ function getRandomListEntry(list){
 alt.on('GlobalSystems:PlayerReady', function (player) {
     player.model = spawnModels[getRandomListEntry(spawnModels)];
     player.setMeta("vehicles", []);
-    var spawn = spawns[getRandomListEntry(spawns)];
-    player.spawn(spawn.x, spawn.y, spawn.z, 0);
+    spawnplayer(player);
     alt.emitClient(player, "freeroam:spawned");
     alt.emitClient(player, "freeroam:Interiors");
     setTimeout(function(){ 
         if(player !== undefined){
             let playerCount = alt.Player.all.length;
             chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${playerCount} players online)`);
-            chat.send(player, "{80eb34}Press {34dfeb}T {80eb34}and type {34dfeb}/help {80eb34}to see all available commands..");
+			chat.send(player, "{80eb34}Press {34dfeb}T {80eb34}and type {34dfeb}/help {80eb34}to see all available commands..");
+			chat.send(player, "{34dfeb}F1 {80eb34}Weapon Menu {34dfeb}F2 {80eb34}Car Spawner");
         }
     }, 1000);
 	GiveWeapon(player, alt.hash("gadget_parachute"), 500, false);
 });
 
 alt.on('playerDeath', (player, killer) => {
-    var spawn = spawns[getRandomListEntry(spawns)];
     alt.emitClient(player, "freeroam:switchInOutPlayer", false, 0, 2);
     setTimeout(function(){
         if(player !== undefined){
-			player.spawn(spawn.x, spawn.y, spawn.z, 0);
+			spawnplayer(player);
             alt.emitClient(player, "freeroam:switchInOutPlayer", true);
             alt.emitClient(player, "freeroam:clearPedBloodDamage");
         }
@@ -737,6 +736,21 @@ alt.on('playerDeath', (player, killer) => {
     SendNotificationToAllPlayer(`~r~<C>${killer.name}</C> ~s~killed ~b~<C>${player.name}</C>`);
 	GiveWeapon(player, alt.hash("gadget_parachute"), 500, false);
 });
+
+function spawnplayer(player){
+	var spawn = spawns[getRandomListEntry(spawns)];
+	const currentArmour = player.armour;
+	const currentHealth = player.health;
+	player.health = 200;
+	player.armour = 100;
+	spawn.z += 1;
+	const position = {
+		x: spawn.x,
+		y: spawn.y,
+		z: spawn.z
+	};
+	player.pos = position;
+}
 
 function GiveWeapon(player, weaponHash, ammo, selectWeapon){
 	alt.emit('GlobalSystems:GiveWeapon', player, weaponHash, ammo, selectWeapon);
