@@ -3,7 +3,9 @@
 # Features
 - optimized code
 - small size (Client: less than 15MB)
-- modded Visual Spawner
+- Weapon Menu
+- Visual Model Changer
+- modded Visual Car Spawner
 - Anti Cheat (Local only)
 
 ### Sources
