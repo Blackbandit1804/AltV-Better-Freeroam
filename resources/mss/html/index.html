@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="scripts/vue.js" charset="UTF-8" type="application/javascript"></script>
+    <script src="scripts/vue-scrollto.js" charset="UTF-8" type="application/javascript"></script>
+</head>
+
+<body>
+    <div id="app" v-if="visible">
+        <div class="title">
+            <a v-on:click="close()">X</a>
+            <span>Visual model Changer</span>
+        </div>
+        <div class="categories">
+            <template v-for="(category, index) in categories">
+                <div class="category" v-scroll-to="{ el: '#scroll-'+index, container: '.models' }">
+                    <img :src="'assets/categories/'+index+'.webp'" loading="lazy" referrerpolicy="no-referrer"></img>
+                    {{ category }}
+                </div>
+            </template>
+        </div>
+        <div class="models">
+            <div class="container">
+                <div class="search">
+                    <input type="text" v-model="keyword" placeholder="Search..." spellcheck="false">
+                </div>
+                <template v-if="keyword.length > 0">
+                    <div id="scroll-0">
+                        <hr data-content="Results"></hr>
+                        <template v-for="model in storage">
+                            <a class="model" v-on:click="select(model.model)">
+                                <img alt="" :src="'assets/models/'+model.model+'.webp'" loading="lazy" referrerpolicy="no-referrer"></img>
+                                {{ model.model }}
+                            </a>
+                        </template>
+                    </div>
+                </template>
+                <template v-else>
+                    <template v-for="(category, index) in categories">
+                        <div v-bind:id="'scroll-'+index">
+                            <template v-if="index > 0">
+                                    <hr v-bind:data-content="category"></hr>
+                                    <template v-for="model in models">
+                                        <template v-if="model.category === index">
+                                            <a class="model" v-on:click="select(model.model)">
+                                                <img alt="" :src="'assets/models/'+model.model+'.webp'" loading="lazy" referrerpolicy="no-referrer"></img>
+                                                {{ model.model }}
+                                            </a>
+                                        </template>
+                                    </template>
+                            </template>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </div>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/alt.js"></script>
+</body>
+<footer>
+    <link rel="stylesheet" href="styles/default.css" media="none" onload="if(media!='all')media='all'">
+</footer>
+</html>
