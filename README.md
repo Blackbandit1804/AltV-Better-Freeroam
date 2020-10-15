@@ -2,7 +2,7 @@
 
 # Features
 - optimized code
-- small size (Client: less than 5MB)
+- small size (Client: less than 15MB)
 - modded Visual Spawner
 - Anti Cheat (Local only)
 
