@@ -753,7 +753,7 @@ function spawnplayer(player){
 		y: spawn.y,
 		z: spawn.z
 	};
-	alt.emit('GlobalSystems:PlayerPosition', player, position);
+	player.pos = position;
 }
 
 function GiveWeapon(player, weaponHash, ammo, selectWeapon){
