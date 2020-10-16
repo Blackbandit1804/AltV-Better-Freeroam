@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "PlayerBlips/1.0.0": {
+        "dependencies": {
+          "AltV.Net": "1.38.4"
+        },
+        "runtime": {
+          "PlayerBlips.dll": {}
+        }
+      },
+      "AltV.Net/1.38.4": {
+        "runtime": {
+          "lib/netcoreapp3.1/AltV.Net.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PlayerBlips/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AltV.Net/1.38.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jXc4948BqAB0LdztOwTUzBCsaNPfOEU+cbDbqQqHpr8t9ETLBlsMNlGrKUOw170Mviw7WdbOhov4sFUpwGsnSA==",
+      "path": "altv.net/1.38.4",
+      "hashPath": "altv.net.1.38.4.nupkg.sha512"
+    }
+  }
+}
