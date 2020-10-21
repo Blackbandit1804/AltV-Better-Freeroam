@@ -45,7 +45,7 @@
                                     <template v-for="vehicle in models">
                                         <template v-if="vehicle.category === index">
                                             <a class="vehicle" v-on:click="select(vehicle.model)">
-                                                <img class="lazy" :data-src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
+                                                <img class="lazy" :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
                                                 {{ vehicle.model }}
                                             </a>
                                         </template>
