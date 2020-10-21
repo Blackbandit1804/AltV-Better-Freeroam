@@ -7,6 +7,7 @@
 - Visual Model Changer
 - modded Visual Car Spawner
 - Anti Cheat (Local only)
+- Anti Idle
 
 ### Sources
 - [altV_GlobalBan](https://github.com/VnX-SolidSnake/altV_GlobalBan)
