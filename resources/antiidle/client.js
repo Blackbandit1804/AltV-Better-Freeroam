@@ -1,20 +1,43 @@
 import * as alt from "alt";
 
-const player = alt.Player.local;
+var minutestotimeout = 10;
 
-var playerticks = 30000;
+const player = alt.Player.local;
+var playerticks = minutestotimeout * 60;
+
+function resetstate(){
+    playerticks = minutestotimeout * 60;
+};
+
+alt.onServer('resetstate', ()=>{
+    resetstate();
+});
 
 alt.on('keydown', (key) => {
-    playerticks = 30000;
+    resetstate();
 });
 
 alt.on('keyup', (key) => {
-    playerticks = 30000;
+    resetstate();
 });
 
-alt.everyTick(() => {
-    playerticks -= 1;
-    if(playerticks<0){
+alt.setInterval(()=> {
+    var positionx1 = player.pos.x;
+    var positiony1 = player.pos.y;
+    alt.setTimeout(() => {
+        var positionx2 = player.pos.x;
+        var positiony2 = player.pos.y;
+        if(positionx1 != positionx2 | positiony1 != positiony2){
+            resetstate();
+        }
+    }, 25000);
+}, 30000);
+
+
+
+alt.setInterval(()=> {
+    playerticks -= 60;
+    if(playerticks<=0){
         alt.emitServer("kickme", player)
     }
-});
+}, 60000);
