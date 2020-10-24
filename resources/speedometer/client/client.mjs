@@ -30,7 +30,7 @@ alt.everyTick(() =>
 			{
 				gear: parseInt(e.gear),
 				rpm: parseInt((1e4 * e.rpm).toFixed(0)),
-				speed: parseInt((3.6 * native.getEntitySpeed(e.scriptID)).toFixed(0)),
+				speed: parseInt((2.23693 * native.getEntitySpeed(e.scriptID)).toFixed(0)),
 				isElectric: electric.includes(e.model),
 				isEngineRunning: native.getIsVehicleEngineRunning(e.scriptID),
 				isVehicleOnAllWheels: native.isVehicleOnAllWheels(e.scriptID),

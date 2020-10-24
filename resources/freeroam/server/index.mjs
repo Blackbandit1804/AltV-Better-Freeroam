@@ -719,7 +719,6 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
 			chat.send(player, "{34dfeb}F1 {80eb34}Weapon Menu {34dfeb}F2 {80eb34}Car Spawner {34dfeb}F3 {80eb34}Model Changer");
         }
     }, 1000);
-	GiveWeapon(player, alt.hash("gadget_parachute"), 500, false);
 });
 
 alt.on('playerDeath', (player, killer) => {
@@ -727,37 +726,27 @@ alt.on('playerDeath', (player, killer) => {
     setTimeout(function(){
         if(player !== undefined){
 			spawnplayer(player);
+			alt.emitClient(player, "freeroam:clearPedBloodDamage");
             alt.emitClient(player, "freeroam:switchInOutPlayer", true);
-            alt.emitClient(player, "freeroam:clearPedBloodDamage");
 		}
 	}, 3000);
 	if(killer.name == null){
-
+		alt.log(`${player.name} gave ${player.name} the rest!`);
+		SendNotificationToAllPlayer(`~r~<C>${player.name}</C> ~s~killed ~b~<C>${player.name}</C>`);
 	}
 	else {
 		alt.log(`${killer.name} gave ${player.name} the rest!`);
 		SendNotificationToAllPlayer(`~r~<C>${killer.name}</C> ~s~killed ~b~<C>${player.name}</C>`);
 	}
-	GiveWeapon(player, alt.hash("gadget_parachute"), 500, false);
 });
 
 function spawnplayer(player){
 	var spawn = spawns[getRandomListEntry(spawns)];
-	const currentArmour = player.armour;
-	const currentHealth = player.health;
 	player.health = 200;
 	player.armour = 100;
 	spawn.z += 2;
-	const position = {
-		x: spawn.x,
-		y: spawn.y,
-		z: spawn.z
-	};
-	player.pos = position;
-}
-
-function GiveWeapon(player, weaponHash, ammo, selectWeapon){
-	alt.emit('GlobalSystems:GiveWeapon', player, weaponHash, ammo, selectWeapon);
+	player.spawn(spawn.x, spawn.y, spawn.z, 0);
+	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
 }
 
 function SendNotificationToPlayer(player, message, textColor=0, bgColor=2, blink=false){
@@ -769,7 +758,8 @@ function SendNotificationToAllPlayer(message, textColor=0, bgColor=2, blink=fals
 }
 
 alt.on('playerDisconnect', (player, reason) => {
-    let playerCount = alt.Player.all.length;
+	let playerCounttemp = alt.Player.all.length;
+	let playerCount = playerCounttemp -= 1;
     chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${playerCount} players online)`);
     player.getMeta("vehicles").forEach(vehicle => {
         if(vehicle != null){
@@ -831,7 +821,7 @@ chat.registerCmd("weapon", function (player, args) {
         chat.send(player, "Usage: /weapon (modelName)");
         return;
     }
-	GiveWeapon(player, alt.hash("weapon_" + args[0]), 500, false);
+	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("weapon_" + args[0]), 500, false);
 });
 
 // =============================== Commands End ====================================================

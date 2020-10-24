@@ -3,6 +3,7 @@
 /// <reference path="typings/natives.d.ts"/>
 import * as alt from 'alt';
 import * as game from 'natives';
+import * as native from 'natives';
 
 alt.onServer("freeroam:spawned", function () {
     game.setPedDefaultComponentVariation(alt.Player.local.scriptID);
