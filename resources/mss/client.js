@@ -8,14 +8,6 @@ function menu(e) {
     opened = e, alt.showCursor(e), alt.toggleGameControls(!e), e ? view.focus() : view.unfocus(), view.emit("menu", e)
 }
 
-function promisify(e) {
-    return new Promise((t, n) => {
-        let o = alt.setInterval(() => {
-            1 == e() && (t(!0), alt.clearInterval(o))
-        }, 80)
-    })
-}
-
 view.on('ready', () => {
     loaded = true;
 });
@@ -38,3 +30,5 @@ alt.on('keyup', (key) => {
         menu(false);
     }
 });
+
+alt.on('disconnect', () => {view.destroy()})

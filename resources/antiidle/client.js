@@ -31,7 +31,7 @@ alt.setInterval(()=> {
             resetstate();
         }
     }, 25000);
-}, 30000);
+}, 30000), 0;
 
 
 
@@ -40,4 +40,6 @@ alt.setInterval(()=> {
     if(playerticks<=0){
         alt.emitServer("kickme", player)
     }
-}, 60000);
+}, 60000), 1;
+
+alt.on('disconnect', () => {alt.clearInterval(0), alt.clearInterval(1)})

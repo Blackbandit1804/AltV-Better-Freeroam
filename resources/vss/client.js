@@ -55,6 +55,8 @@ alt.on('keyup', (key) => {
     }
 });
 
+alt.on('disconnect', () => {view.destroy()})
+
 alt.onServer('setPedIntoVehicle', async (vehicle) => {
     const player = alt.Player.local;
     await promisify(() => {

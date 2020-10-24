@@ -831,7 +831,7 @@ chat.registerCmd("weapon", function (player, args) {
         chat.send(player, "Usage: /weapon (modelName)");
         return;
     }
-    player.giveWeapon(alt.hash("weapon_" + args[0]), 500, true);
+	GiveWeapon(player, alt.hash("weapon_" + args[0]), 500, false);
 });
 
 // =============================== Commands End ====================================================

@@ -3,7 +3,6 @@
 /// <reference path="typings/natives.d.ts"/>
 import * as alt from 'alt';
 import * as game from 'natives';
-import * as native from 'natives';
 
 alt.onServer("freeroam:spawned", function () {
     game.setPedDefaultComponentVariation(alt.Player.local.scriptID);
@@ -168,13 +167,6 @@ alt.onServer('freeroam:Interiors', () => {
 });
 
 alt.onServer("freeroam:sendNotification", sendNotification);
-
-alt.everyTick(() => {
-    var hudcomp = [0, 1, 3, 4, 5, 6, 7, 8, 9]
-    hudcomp.forEach(element => {
-        native.hideHudComponentThisFrame(element);
-    });
-});
 
 function sendNotification(textColor, bgColor, message, blink){
     game.setColourOfNextTextComponent(textColor);

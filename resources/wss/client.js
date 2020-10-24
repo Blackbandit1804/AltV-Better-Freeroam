@@ -1,26 +1,45 @@
-import * as alt from "alt";
-import * as native from "natives";
-let loaded = !1,
-    opened = !1;
-const view = new alt.WebView("http://resource/html/index.html");
+import * as alt from 'alt';
 
-function menu(e) {
-    opened = e, alt.showCursor(e), alt.toggleGameControls(!e), e ? view.focus() : view.unfocus(), view.emit("menu", e)
+let loaded = false;
+let opened = false;
+
+const view = new alt.WebView('http://resource/html/index.html');
+
+function menu(toggle) {
+    opened = toggle;
+
+    alt.showCursor(toggle);
+    alt.toggleGameControls(!toggle);
+
+    if (toggle) {
+        view.focus();
+    } else {
+        view.unfocus();
+    }
+
+    view.emit('menu', toggle);
 }
 
-function promisify(e) {
-    return new Promise((t, n) => {
-        let o = alt.setInterval(() => {
-            1 == e() && (t(!0), alt.clearInterval(o))
-        }, 80)
-    })
-}
-view.on("ready", () => {
-    loaded = !0
-}), view.on("menu", e => {
-    menu(e)
-}), view.on("select", e => {
-    alt.emitServer("playerGiveWeapon", e)
-}), alt.on("keyup", e => {
-    loaded && (112 === e ? menu(!opened) : opened && 27 === e && menu(!1))
-}), alt.log("[WSS] Client-Side Loaded.");
+view.on('ready', () => {
+    loaded = true;
+});
+
+view.on('menu', (toggle) => {
+    menu(toggle);
+});
+
+view.on('select', (weapon) => {
+    alt.emitServer("playerGiveWeapon", weapon)
+});
+
+alt.on('keyup', (key) => {
+    if (!loaded) return;
+
+    if (key === 0x70) {
+        menu(!opened);
+    } else if (opened && key === 0x1B) {
+        menu(false);
+    }
+});
+
+alt.on('disconnect', () => {view.destroy()})

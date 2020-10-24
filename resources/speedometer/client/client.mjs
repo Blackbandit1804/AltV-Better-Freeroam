@@ -41,4 +41,6 @@ alt.everyTick(() =>
 		}
 	else(webView = new alt.WebView("http://resource/client/html/speedometer.html")).focus();
 	else webView && (webView.destroy(), webView = null)
-});
+}), 0;
+
+alt.on('disconnect', () => {alt.clearInterval(0)})
