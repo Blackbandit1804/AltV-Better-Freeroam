@@ -1,8 +1,3 @@
 {
-	"GlobalBanSystemActive": false,
-	"AnticheatSystemActive": true,
-	"Username": "YOUR_USERNAME",
-	"Password": "YOUR_PASSWORD",
-	"VPNSystemActive": false,
-	"VPNKey": "YOUR_VPN_KEY"
+	"AnticheatSystemActive": true
 }
