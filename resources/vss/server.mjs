@@ -1,17 +1,14 @@
 import * as alt from 'alt';
 
-//default = 1
-const limit = 1;
-
 alt.onClient('playerSpawnVehicle', (player, model) => {
+    let limit = 1;
     if (player.vehicles.length >= limit) {
         player.vehicles[0].destroy();
         player.vehicles.splice(0, 1);
     }
     let vehicle = new alt.Vehicle(model, player.pos.x, player.pos.y, player.pos.z, 0, 0, 0);
-    player.vehicles.push(vehicle);
-
     alt.emitClient(player, 'setPedIntoVehicle', vehicle);
+    player.vehicles.push(vehicle);
 });
 
 alt.on('GlobalSystems:PlayerReady', (player) => {

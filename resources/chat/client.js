@@ -1,41 +1,92 @@
-import * as alt from "alt";
-import * as game from "natives";
-let buffer = [],
-    loaded = !1,
-    opened = !1,
-    hidden = !1,
-    view = new alt.WebView("http://resource/html/index.html");
+import * as alt from 'alt';
+import * as game from 'natives';
 
-function addMessage(e, t) {
-    e ? view.emit("addMessage", e, t) : view.emit("addString", t)
+let buffer = [];
+
+let loaded = false;
+let opened = false;
+let hidden = false;
+
+let view = new alt.WebView('http://resource/html/index.html');
+
+function addMessage(name, text) {
+	if (name) {
+		view.emit('addMessage', name, text);
+	} else {
+		view.emit('addString', text);
+	}
 }
-view.on("chatloaded", () => {
-    for (const e of buffer) addMessage(e.name, e.text);
-    loaded = !0
-}), view.on("chatmessage", e => {
-    alt.emitServer("chatmessage", e), void 0 !== e && e.length >= 1 && alt.emit("messageSent", e), opened = !1, alt.emit("chatClosed"), alt.toggleGameControls(!0)
+
+view.on('chatloaded', () => {
+	for (const msg of buffer) {
+		addMessage(msg.name, msg.text);
+	}
+
+	loaded = true;
 });
-export function pushMessage(e, t) {
-    loaded ? addMessage(e, t) : buffer.push({
-        name: e,
-        text: t
-    })
+
+view.on('chatmessage', (text) => {
+	alt.emitServer('chatmessage', text);
+  
+	if (text !== undefined && text.length >= 1)
+		alt.emit('messageSent', text);
+
+	opened = false;
+	alt.emit('chatClosed');
+	alt.toggleGameControls(true);
+});
+
+export function pushMessage(name, text) {
+	if (!loaded) {
+		buffer.push({ name, text });
+	} else {
+		addMessage(name, text);
+	}
 }
-export function pushLine(e) {
-    pushMessage(null, e)
+
+export function pushLine(text) {
+	pushMessage(null, text);
 }
+
 export function isChatHidden() {
-    return hidden
+	return hidden;
 }
+
 export function isChatOpen() {
-    return opened
+	return opened;
 }
-alt.onServer("chatmessage", pushMessage), alt.on("keyup", e => {
-    loaded && (!opened && 84 === e && alt.gameControlsEnabled() ? (opened = !0, view.emit("openChat", !1), alt.emit("chatOpened"), alt.toggleGameControls(!1)) : !opened && 191 === e && alt.gameControlsEnabled() ? (opened = !0, view.emit("openChat", !0), alt.emit("chatOpened"), alt.toggleGameControls(!1)) : opened && 27 == e && (opened = !1, view.emit("closeChat"), alt.emit("chatClosed"), alt.toggleGameControls(!0)), 118 == e && (hidden = !hidden, game.displayHud(!hidden), game.displayRadar(!hidden), view.emit("hideChat", hidden)))
+
+alt.onServer('chatmessage', pushMessage);
+
+alt.on('keyup', (key) => {
+	if (!loaded)
+		return;
+
+	if (!opened && key === 0x54 && alt.gameControlsEnabled()) {
+		opened = true;
+		view.emit('openChat', false);
+		alt.emit('chatOpened');
+		alt.toggleGameControls(false);
+	}
+	else if (!opened && key === 0xBF && alt.gameControlsEnabled()) {
+		opened = true;
+		view.emit('openChat', true);
+		alt.emit('chatOpened');
+		alt.toggleGameControls(false);
+	}
+	else if (opened && key == 0x1B) {
+		opened = false;
+		view.emit('closeChat');
+		alt.emit('chatClosed');
+		alt.toggleGameControls(true);
+	}
+
+	if (key == 0x76) {
+		hidden = !hidden;
+		game.displayHud(!hidden);
+		game.displayRadar(!hidden);
+		view.emit('hideChat', hidden);
+	}
 });
-export default {
-    pushMessage: pushMessage,
-    pushLine: pushLine,
-    isChatHidden: isChatHidden,
-    isChatOpen: isChatOpen
-};
+
+export default { pushMessage, pushLine, isChatHidden, isChatOpen };

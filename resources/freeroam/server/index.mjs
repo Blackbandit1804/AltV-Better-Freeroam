@@ -730,14 +730,6 @@ alt.on('playerDeath', (player, killer) => {
             alt.emitClient(player, "freeroam:switchInOutPlayer", true);
 		}
 	}, 3000);
-	if(killer.name == null){
-		alt.log(`${player.name} gave ${player.name} the rest!`);
-		SendNotificationToAllPlayer(`~r~<C>${player.name}</C> ~s~killed ~b~<C>${player.name}</C>`);
-	}
-	else {
-		alt.log(`${killer.name} gave ${player.name} the rest!`);
-		SendNotificationToAllPlayer(`~r~<C>${killer.name}</C> ~s~killed ~b~<C>${player.name}</C>`);
-	}
 });
 
 function spawnplayer(player){
@@ -747,14 +739,6 @@ function spawnplayer(player){
 	spawn.z += 2;
 	player.spawn(spawn.x, spawn.y, spawn.z, 0);
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
-}
-
-function SendNotificationToPlayer(player, message, textColor=0, bgColor=2, blink=false){
-    alt.emitClient(player, "freeroam:sendNotification", textColor, bgColor, message, blink);
-}
-
-function SendNotificationToAllPlayer(message, textColor=0, bgColor=2, blink=false){
-    alt.Player.all.forEach(plr => SendNotificationToPlayer(plr, message, textColor, bgColor, blink));
 }
 
 alt.on('playerDisconnect', (player, reason) => {
@@ -822,6 +806,7 @@ chat.registerCmd("weapon", function (player, args) {
         return;
     }
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("weapon_" + args[0]), 500, false);
+	//player.giveWeapon(alt.hash("weapon_" + args[0]), 500, true);
 });
 
 // =============================== Commands End ====================================================

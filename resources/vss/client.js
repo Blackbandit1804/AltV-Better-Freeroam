@@ -28,7 +28,7 @@ function promisify(callback) {
                 resolve(true);
                 alt.clearInterval(loader);
             }
-        }, 80);
+        }, 10);
     });
 }
 
@@ -58,7 +58,7 @@ alt.on('keyup', (key) => {
 alt.on('disconnect', () => {view.destroy()})
 
 alt.onServer('setPedIntoVehicle', async (vehicle) => {
-    const player = alt.Player.local;
+    let player = alt.Player.local;
     await promisify(() => {
         if (player.vehicle) return true;
         native.setPedIntoVehicle(player.scriptID, vehicle.scriptID, -1);
