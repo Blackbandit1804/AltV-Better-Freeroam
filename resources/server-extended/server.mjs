@@ -1,5 +1,5 @@
 import * as alt from "alt";
-import * as color from "./colors.mjs";
+
 const markersToLoad = [],
 	callbacks = [],
 	registeredCallbacks = new Set;

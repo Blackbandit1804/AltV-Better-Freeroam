@@ -733,11 +733,16 @@ alt.on('playerDeath', (player, killer) => {
 });
 
 function spawnplayer(player){
-	var spawn = spawns[getRandomListEntry(spawns)];
+	alt.emitClient(player, "freeroam:freeze");
+	player.spawn(player.x, player.y, player.z, 0)
 	player.health = 200;
 	player.armour = 100;
-	spawn.z += 2;
-	player.spawn(spawn.x, spawn.y, spawn.z, 0);
+	var spawn = spawns[getRandomListEntry(spawns)];
+	//player.spawn(spawn.x, spawn.y, spawn.z, 1);
+	alt.emit('GlobalSystems:PlayerPosition', player, new alt.Vector3(spawn.x, spawn.y, spawn.z));
+	alt.setTimeout(() => {
+        alt.emitClient(player, "freeroam:unfreeze");
+    }, 2000);
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
 }
 

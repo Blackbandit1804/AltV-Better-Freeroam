@@ -8,15 +8,14 @@
     ".NETCoreApp,Version=v3.1": {
       "VenoX Global Systems/1.0.0": {
         "dependencies": {
-          "AltV.Net": "1.38.4",
-          "AltV.Net.Async": "1.38.4",
-          "Newtonsoft.Json": "12.0.3"
+          "AltV.Net": "1.40.4",
+          "AltV.Net.Async": "1.40.1"
         },
         "runtime": {
           "VenoX Global Systems.dll": {}
         }
       },
-      "AltV.Net/1.38.4": {
+      "AltV.Net/1.40.4": {
         "runtime": {
           "lib/netcoreapp3.1/AltV.Net.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -24,23 +23,15 @@
           }
         }
       },
-      "AltV.Net.Async/1.38.4": {
+      "AltV.Net.Async/1.40.1": {
         "dependencies": {
-          "AltV.Net": "1.38.4",
+          "AltV.Net": "1.40.4",
           "System.Threading.Channels": "4.7.0"
         },
         "runtime": {
           "lib/netcoreapp3.1/AltV.Net.Async.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
-          }
-        }
-      },
-      "Newtonsoft.Json/12.0.3": {
-        "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.3.23909"
           }
         }
       },
@@ -53,26 +44,19 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AltV.Net/1.38.4": {
+    "AltV.Net/1.40.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jXc4948BqAB0LdztOwTUzBCsaNPfOEU+cbDbqQqHpr8t9ETLBlsMNlGrKUOw170Mviw7WdbOhov4sFUpwGsnSA==",
-      "path": "altv.net/1.38.4",
-      "hashPath": "altv.net.1.38.4.nupkg.sha512"
+      "sha512": "sha512-C0KidclXZmbsJQyp46hEIrHFj83dqCg8Z6Fons50RXY5bkNHNprUJ4Pjmi+neOHfHeBvh8lXr/r/aRxg4J1BCQ==",
+      "path": "altv.net/1.40.4",
+      "hashPath": "altv.net.1.40.4.nupkg.sha512"
     },
-    "AltV.Net.Async/1.38.4": {
+    "AltV.Net.Async/1.40.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-G+y2XPdT8+aTbFfTb/XFY6Fn990zAZndc5ZSM7nXNezu/swOkOKwA9qPndy1IwPvbF11TVczoEJSX78IxvjQ+g==",
-      "path": "altv.net.async/1.38.4",
-      "hashPath": "altv.net.async.1.38.4.nupkg.sha512"
-    },
-    "Newtonsoft.Json/12.0.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
-      "path": "newtonsoft.json/12.0.3",
-      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+      "sha512": "sha512-l9eI7mWz8KaBAkAtnWWAVXWtmlHtUa184bDfZe838Yn6fHZJk1KZ+eXkM6qwRbZmvcUPDjQhE4rRD3Rpw68wxg==",
+      "path": "altv.net.async/1.40.1",
+      "hashPath": "altv.net.async.1.40.1.nupkg.sha512"
     },
     "System.Threading.Channels/4.7.0": {
       "type": "package",

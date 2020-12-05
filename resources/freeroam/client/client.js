@@ -20,6 +20,14 @@ alt.onServer("freeroam:switchInOutPlayer", (in_switch, instant_switch, switch_ty
     }
 });
 
+alt.onServer("freeroam:freeze", function () {
+	game.freezeEntityPosition(alt.Player.local.scriptID, true);
+});
+
+alt.onServer("freeroam:unfreeze", function () {
+	game.freezeEntityPosition(alt.Player.local.scriptID, false);
+});
+
 
 // Source: https://github.com/Stuyk/altV-Open-Roleplay/blob/5ccdeb9e960a7e0fde758cc89c366ed2953cc639/resources/orp/client/systems/interiors.mjs
 alt.onServer('freeroam:Interiors', () => {
@@ -157,6 +165,7 @@ alt.onServer('freeroam:Interiors', () => {
         "RC12B_Default",
         "RC12B_Fixed"
     ]
+
     alt.requestIpl('ex_dt1_02_office_02b');
     request.forEach(element => {
         game.requestIpl(element);
