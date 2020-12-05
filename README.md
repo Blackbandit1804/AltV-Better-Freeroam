@@ -10,7 +10,7 @@
 - Anti Idle
 
 ### Sources
-- [altV_GlobalBan](https://github.com/VnX-SolidSnake/altV_GlobalBan)
+- [altV_GlobalBan](https://github.com/Nickwasused/altV-GlobalBan)
 - [Freeroam-Gamemode](https://github.com/altV-Resources-by-Neta/Freeroam-Gamemode)
 - [altV-Chat-Extended](https://github.com/Stuyk/altV-Chat-Extended)
 - [altV-Extended](https://github.com/Stuyk/altV-Extended)
