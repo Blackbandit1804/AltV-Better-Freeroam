@@ -57,6 +57,9 @@ let app = new Vue({
             category: 2,
             model: "weapon_pistol"
         }, {
+			category: 2,
+            model: "weapon_gadgetpistol"
+        }, {
             category: 2,
             model: "weapon_pistol_mk2"
         }, {
@@ -136,6 +139,9 @@ let app = new Vue({
             model: "weapon_pumpshotgun"
         }, {
             category: 4,
+            model: "weapon_combatshotgun"
+        }, {
+            category: 4,
             model: "weapon_pumpshotgun_mk2"
         }, {
             category: 4,
@@ -161,6 +167,9 @@ let app = new Vue({
         }, {
             category: 5,
             model: "weapon_assaultrifle"
+        }, {
+			category: 5,
+            model: "weapon_militaryrifle"
         }, {
             category: 5,
             model: "weapon_assaultrifle_mk2"

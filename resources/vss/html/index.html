@@ -16,7 +16,7 @@
         <div class="categories">
             <template v-for="(category, index) in categories">
                 <div class="category" v-scroll-to="{ el: '#scroll-'+index, container: '.vehicles' }">
-                    <img :src="'assets/categories/'+index+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+index+"></img>
+                    <img :src="'https://raw.githubusercontent.com/Nickwasused/AltV-Better-Freeroam/main/imagehost/vss/categories/'+index+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+index+"></img>
                     {{ category }}
                 </div>
             </template>
@@ -31,7 +31,7 @@
                         <hr data-content="Results"></hr>
                         <template v-for="vehicle in storage">
                             <a class="vehicle" v-on:click="select(vehicle.model)">
-                                <img :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
+                                <img :src="'https://raw.githubusercontent.com/Nickwasused/AltV-Better-Freeroam/main/imagehost/vss/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
                                 {{ vehicle.model }}
                             </a>
                         </template>
@@ -45,7 +45,7 @@
                                     <template v-for="vehicle in models">
                                         <template v-if="vehicle.category === index">
                                             <a class="vehicle" v-on:click="select(vehicle.model)">
-                                                <img class="lazy" :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
+                                                <img class="lazy" :src="'https://raw.githubusercontent.com/Nickwasused/AltV-Better-Freeroam/main/imagehost/vss/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
                                                 {{ vehicle.model }}
                                             </a>
                                         </template>
