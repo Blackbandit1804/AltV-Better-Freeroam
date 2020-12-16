@@ -18,7 +18,7 @@
         <div class="categories">
             <template v-for="(category, index) in categories">
                 <div class="category" v-scroll-to="{ el: '#scroll-'+index, container: '.models' }">
-                    <img :src="'https://raw.githubusercontent.com/Nickwasused/AltV-Better-Freeroam/main/imagehost/mss/categories/'+index+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+index+"></img>
+                    <img :src="'assets/categories/'+index+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+index+"></img>
                     {{ category }}
                 </div>
             </template>
@@ -33,7 +33,7 @@
                         <hr data-content="Results"></hr>
                         <template v-for="model in storage">
                             <a class="model" v-on:click="select(model.model)">
-                                <img alt="" :src="'https://raw.githubusercontent.com/Nickwasused/AltV-Better-Freeroam/main/imagehost/mss/models/'+model.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+model.model+"></img>
+                                <img alt="" :src="'assets/models/'+model.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+model.model+"></img>
                                 {{ model.model }}
                             </a>
                         </template>
@@ -47,7 +47,7 @@
                                     <template v-for="model in models">
                                         <template v-if="model.category === index">
                                             <a class="model" v-on:click="select(model.model)">
-                                                <img alt="" :src="'https://raw.githubusercontent.com/Nickwasused/AltV-Better-Freeroam/main/imagehost/mss/models/'+model.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+model.model+"></img>
+                                                <img alt="" :src="'assets/models/'+model.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+model.model+"></img>
                                                 {{ model.model }}
                                             </a>
                                         </template>

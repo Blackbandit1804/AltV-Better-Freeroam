@@ -34,7 +34,6 @@ let app = new Vue({
             'Open Wheel'
         ],
         models: [
-			{ category: 1, model: 'avisa ' },
             { category: 1, model: 'dinghy' },
             { category: 1, model: 'dinghy2' },
             { category: 1, model: 'dinghy3' },
