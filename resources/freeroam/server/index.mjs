@@ -757,11 +757,11 @@ function getRandomListEntry(list){
 }
 
 alt.on('GlobalSystems:PlayerReady', function (player) {
+	alt.emitClient(player, "freeroam:Interiors");
 	player.model = spawnModels[getRandomListEntry(spawnModels)];
     player.setMeta("vehicles", []);
     spawnplayer(player);
     alt.emitClient(player, "freeroam:spawned");
-    alt.emitClient(player, "freeroam:Interiors");
     setTimeout(function(){ 
         if(player !== undefined){
             let playerCount = alt.Player.all.length;
@@ -776,25 +776,21 @@ alt.on('playerDeath', (player, killer) => {
     alt.emitClient(player, "freeroam:switchInOutPlayer", false, 0, 2);
     setTimeout(function(){
         if(player !== undefined){
-			spawnplayer(player);
 			alt.emitClient(player, "freeroam:clearPedBloodDamage");
             alt.emitClient(player, "freeroam:switchInOutPlayer", true);
+			spawnplayer(player);
 		}
 	}, 3000);
 });
 
 function spawnplayer(player){
 	alt.emitClient(player, "freeroam:freeze");
-	player.spawn(player.x, player.y, player.z, 0)
+	var spawn = spawns[getRandomListEntry(spawns)];
+	alt.emit('GlobalSystems:PlayerSpawn', player, new alt.Vector3(spawn.x, spawn.y, spawn.z));
 	player.health = 200;
 	player.armour = 100;
-	var spawn = spawns[getRandomListEntry(spawns)];
-	//player.spawn(spawn.x, spawn.y, spawn.z, 1);
-	alt.emit('GlobalSystems:PlayerPosition', player, new alt.Vector3(spawn.x, spawn.y, spawn.z));
-	alt.setTimeout(() => {
-        alt.emitClient(player, "freeroam:unfreeze");
-    }, 2000);
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
+	alt.emitClient(player, "freeroam:unfreeze");
 }
 
 alt.on('playerDisconnect', (player, reason) => {

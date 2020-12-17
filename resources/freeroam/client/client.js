@@ -3,6 +3,7 @@
 /// <reference path="typings/natives.d.ts"/>
 import * as alt from 'alt';
 import * as game from 'natives';
+import * as native from "natives";
 
 alt.onServer("freeroam:spawned", function () {
     game.setPedDefaultComponentVariation(alt.Player.local.scriptID);
@@ -27,7 +28,6 @@ alt.onServer("freeroam:freeze", function () {
 alt.onServer("freeroam:unfreeze", function () {
 	game.freezeEntityPosition(alt.Player.local.scriptID, false);
 });
-
 
 // Source: https://github.com/Stuyk/altV-Open-Roleplay/blob/5ccdeb9e960a7e0fde758cc89c366ed2953cc639/resources/orp/client/systems/interiors.mjs
 alt.onServer('freeroam:Interiors', () => {
@@ -129,7 +129,9 @@ alt.onServer('freeroam:Interiors', () => {
         "cs3_05_water_grp1",
         "cs3_05_water_grp1_lod",
         "trv1_trail_start",
-        "CanyonRvrShallow"
+        "CanyonRvrShallow",
+		"vw_casino_penthouse",
+		"vw_casino_main"
     ]
     var remove = [
         "FIBlobbyfake",
@@ -165,8 +167,56 @@ alt.onServer('freeroam:Interiors', () => {
         "RC12B_Default",
         "RC12B_Fixed"
     ]
+	var casino1 = [
+        "0x30240D11",
+        "0xA3C89BB2"
+    ]
+	var casino2 = [
+        "teste1",
+        "teste2",
+        "teste3",
+        "teste4",
+        "teste11",
+        "teste17",
+        "teste18",
+        "teste19",
+        "teste20",
+        "teste21",
+        "teste29",
+        "teste32",
+        "teste33",
+        "teste34"
+    ]
+	var casino3 = [
+        "teste1",
+        "teste2",
+        "teste3",
+        "teste4",
+        "teste11"
+    ]
 
+	let coordLoc = native.getInteriorAtCoords(-141.1987, -620.913, 168.8205);
+    native.pinInteriorInMemory(coordLoc);
     alt.requestIpl('ex_dt1_02_office_02b');
+	
+	let interiorID = native.getInteriorAtCoords(1100.0, 220.0, -50.0);
+    if (native.isValidInterior(interiorID)) {
+		casino1.forEach(element => {
+			native.activateInteriorEntitySet(interiorID, element);
+		});
+        native.refreshInterior(interiorID);
+    }
+    interiorID = native.getInteriorAtCoords(976.6364, 70.29476, 115.1641);
+    if (native.isValidInterior(interiorID)) {
+		casino2.forEach(element => {
+			native.activateInteriorEntitySet(interiorID, element);
+		});
+		casino3.forEach(element => {
+			native.activateInteriorEntitySet(interiorID, element, 3);
+		});
+        native.refreshInterior(interiorID);
+    }
+	
     request.forEach(element => {
         game.requestIpl(element);
     });
