@@ -42,8 +42,10 @@ view.on('menu', (toggle) => {
 });
 
 view.on('select', (model) => {
-	let position = new alt.Vector3(player.pos.x, player.pos.y, player.pos.z);
-    alt.emitServer('playerSpawnVehicle', model, position);
+	let position = player.pos;
+	let rotation = player.rot;
+    alt.emitServer('playerSpawnVehicle', model, position, rotation);
+	alt.log(rotation);
 	menu(false);
 });
 
