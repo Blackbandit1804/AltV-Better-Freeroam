@@ -3,6 +3,7 @@ import * as native from 'natives';
 
 let loaded = false;
 let opened = false;
+let player = alt.Player.local;
 
 const view = new alt.WebView('http://resource/html/index.html');
 
@@ -41,7 +42,8 @@ view.on('menu', (toggle) => {
 });
 
 view.on('select', (model) => {
-    alt.emitServer('playerSpawnVehicle', model);
+	let position = new alt.Vector3(player.pos.x, player.pos.y, player.pos.z);
+    alt.emitServer('playerSpawnVehicle', model, position);
 	menu(false);
 });
 

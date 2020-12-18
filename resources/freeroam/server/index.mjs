@@ -786,7 +786,7 @@ alt.on('playerDeath', (player, killer) => {
 function spawnplayer(player){
 	alt.emitClient(player, "freeroam:freeze");
 	var spawn = spawns[getRandomListEntry(spawns)];
-	alt.emit('GlobalSystems:PlayerSpawn', player, new alt.Vector3(spawn.x, spawn.y, spawn.z));
+	player.spawn(spawn.x, spawn.y, spawn.z, 1);
 	player.health = 200;
 	player.armour = 100;
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
