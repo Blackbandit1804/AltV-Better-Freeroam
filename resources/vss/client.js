@@ -45,7 +45,6 @@ view.on('select', (model) => {
 	let position = player.pos;
 	let rotation = player.rot;
     alt.emitServer('playerSpawnVehicle', model, position, rotation);
-	alt.log(rotation);
 	menu(false);
 });
 
