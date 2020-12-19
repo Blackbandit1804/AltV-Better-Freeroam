@@ -1,33 +1,23 @@
 import * as alt from 'alt';
 
 alt.onClient('playerSpawnVehicle', (player, model, position, rotation) => {
-	try {
-		player.vehicle.destroy();
-	}
-	catch(err) {
-	} 
-	finally {
-		const vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
-		alt.emitClient(player, 'setPedIntoVehicle', vehicle);
-	};
+    let limit = 1;
+    if (player.vehicles.length >= limit) {
+        player.vehicles[0].destroy();
+        player.vehicles.splice(0, 1);
+    }
+    let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
+    alt.emitClient(player, 'setPedIntoVehicle', vehicle);
+    player.vehicles.push(vehicle);
 });
 
-alt.on('playerDeath', (player) => {
-    try {
-		player.vehicle.destroy();
-	}
-	catch(err) {
-	} 
-	finally {
-	};
+alt.on('GlobalSystems:PlayerReady', (player) => {
+    player.vehicles = [];
 });
 
 alt.on('playerDisconnect', (player) => {
-    try {
-		player.vehicle.destroy();
-	}
-	catch(err) {
-	} 
-	finally {
-	};
+    const vehicles = player.vehicles;
+    vehicles.forEach(vehicle => {
+        vehicle.destroy();
+    });
 });
