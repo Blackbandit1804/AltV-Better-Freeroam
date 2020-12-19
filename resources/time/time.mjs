@@ -57,8 +57,4 @@ export default class Weather {
         this.init();
         alt.log('RealWeatherTimeSync: started');
     }
-
-    getCurrentData(){
-        console.log("Time: " +this.currentDate.getHours(), this.currentDate.getMinutes(), this.currentDate.getSeconds());
-    }
 }

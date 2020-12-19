@@ -19,13 +19,14 @@ const spawns = [
 	{ x: 1689.99560546875, y:4773.89013671875, z:41.917236328125},
 	{ x: -2149.028564453125, y:3234.01318359375, z:32.801513671875},
 	{ x: -730.5098876953125, y:5796.474609375, z:17.6365966796875},
-	{ x:173.2087860107422 , y:3122.927490234375, z:42.3553466796875},
-	{ x:-100.62857055664062 , y:2803.397705078125, z:53.088623046875},
-	{ x:-2525.61767578125 , y:2337.257080078125, z:33.05419921875},
-	{ x:-3021.257080078125 , y:98.04396057128906, z:10.91357421875},
-	{ x:-518.6769409179688 , y:-1202.3604736328125, z:18.5970458984375},
-	{ x:-97.87252807617188 , y:91.88571166992188, z:71.808837890625},
-	{ x: 143.10330200195312, y:6601.859375, z:31.841064453125}
+	{ x: 173.2087860107422 , y:3122.927490234375, z:42.3553466796875},
+	{ x: -100.62857055664062 , y:2803.397705078125, z:53.088623046875},
+	{ x: -2525.61767578125 , y:2337.257080078125, z:33.05419921875},
+	{ x: -3021.257080078125 , y:98.04396057128906, z:10.91357421875},
+	{ x: -518.6769409179688 , y:-1202.3604736328125, z:18.5970458984375},
+	{ x: -97.87252807617188 , y:91.88571166992188, z:71.808837890625},
+	{ x: 143.10330200195312, y:6601.859375, z:31.841064453125},
+	{ x: 4448.703125, y:-4490.5712890625, z:4.207275390625}
 ];
 
 const spawnModels = [
@@ -770,8 +771,7 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
     alt.emitClient(player, "freeroam:spawned");
     setTimeout(function(){ 
         if(player !== undefined){
-            let playerCount = alt.Player.all.length;
-            chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${playerCount} players online)`);
+            chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${alt.Player.all.length} players online)`);
 			chat.send(player, "{80eb34}Press {34dfeb}T {80eb34}and type {34dfeb}/help {80eb34}to see all available commands..");
 			chat.send(player, "{34dfeb}F1 {80eb34}Weapon Menu {34dfeb}F2 {80eb34}Car Spawner {34dfeb}F3 {80eb34}Model Changer");
         }
@@ -800,9 +800,7 @@ function spawnplayer(player){
 }
 
 alt.on('playerDisconnect', (player, reason) => {
-	let playerCounttemp = alt.Player.all.length;
-	let playerCount = playerCounttemp -= 1;
-    chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${playerCount} players online)`);
+    chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${alt.Player.all.length -= 1} players online)`);
     player.getMeta("vehicles").forEach(vehicle => {
         if(vehicle != null){
             vehicle.destroy();
@@ -812,59 +810,14 @@ alt.on('playerDisconnect', (player, reason) => {
     alt.log(`${player.name} has leaved the server becauseof ${reason}`);
 });
 
-// =============================== Commands Begin ==================================================
-
 chat.registerCmd("help", function (player, args) {
     chat.send(player, "{ff0000}========== {eb4034}HELP {ff0000} ==========");
-    chat.send(player, "{ff0000}= {34abeb}/veh {40eb34}(model)   {ffffff} Spawn a Vehicle");
-    chat.send(player, "{ff0000}= {34abeb}/model {40eb34}(modelName)   {ffffff} Change Player Model");
-    chat.send(player, "{ff0000}= {34abeb}/weapon {40eb34}(weaponName)   {ffffff} Get specified weapon");
+    chat.send(player, "{ff0000}= {34abeb}/pos {40eb34} {ffffff} Get your Position in the game world");
 	chat.send(player, "{80eb34}= {34dfeb}F1={80eb34}Weapon Menu {34dfeb}F2={80eb34}Car Spawner {34dfeb}F3={80eb34}Model Changer");
     chat.send(player, "{ff0000} ========================");
-});
-
-chat.registerCmd("veh", function (player, args) {
-    if (args.length === 0) {
-        chat.send(player, "Usage: /veh (vehicleModel)");
-        return;
-    }
-    try {
-        var vehicle = new alt.Vehicle(args[0], player.pos.x, player.pos.y, player.pos.z, 0, 0, 0);
-    }catch{
-        chat.send(player, `{ff0000} Vehicle Model {ff9500}${args[0]} {ff0000}does not exist..`);
-    }finally {
-        var pvehs = player.getMeta("vehicles");
-        if(pvehs.length >= 3){
-            var toDestroy = pvehs.pop();
-            if(toDestroy != null){
-                toDestroy.destroy();
-            }
-        }
-        pvehs.unshift(vehicle);
-        player.setMeta("vehicles", pvehs);
-    }
 });
 
 chat.registerCmd("pos", function (player, args) {
     alt.log(`Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
     chat.send(player, `Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
 });
-
-chat.registerCmd("model", function (player, args) {
-    if (args.length === 0) {
-        chat.send(player, "Usage: /model (modelName)");
-        return;
-    }
-    player.model = args[0];
-});
-
-chat.registerCmd("weapon", function (player, args) {
-    if (args.length === 0) {
-        chat.send(player, "Usage: /weapon (modelName)");
-        return;
-    }
-	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("weapon_" + args[0]), 500, false);
-	//player.giveWeapon(alt.hash("weapon_" + args[0]), 500, true);
-});
-
-// =============================== Commands End ====================================================
