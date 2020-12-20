@@ -238,16 +238,17 @@ function sendNotification(textColor, bgColor, message, blink){
 }
 
 let islandpos = { x: 4895.28, y: -5744.58, z: 26.351 };
+new alt.PointBlip(6500, -6500, 20).alpha = 0;
 let loaded = false;
 alt.setInterval(load_island, 1000)
 
 function load_island() {
     let dist = native.getDistanceBetweenCoords(islandpos.x, islandpos.y, islandpos.z, player.pos.x, player.pos.y, player.pos.z, false);
-    if (dist <= 2000 && !loaded) {
+    if (dist <= 2500 && !loaded) {
         game.setIplSetEnabled('HeistIsland', true);
 		loaded = true;
     } 
-    else if (dist > 2000 && loaded) {
+    else if (dist > 2500 && loaded) {
         game.setIplSetEnabled('HeistIsland', false);
 		loaded = false;
     }

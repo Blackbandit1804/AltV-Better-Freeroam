@@ -789,7 +789,7 @@ alt.on('playerDeath', (player, killer) => {
 	}, 3000);
 });
 
-function spawnplayer(player){
+function spawnplayer(player ){
 	alt.emitClient(player, "freeroam:freeze");
 	var spawn = spawns[getRandomListEntry(spawns)];
 	player.spawn(spawn.x, spawn.y, spawn.z, 1);
@@ -797,7 +797,12 @@ function spawnplayer(player){
 	player.armour = 100;
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
 	alt.emitClient(player, "freeroam:unfreeze");
-}
+};
+
+export function kickplayer(player, reason) {
+    player.kick(reason);
+	console.log("[IdleKick] Kicking Player " + player.name);
+};
 
 alt.on('playerDisconnect', (player, reason) => {
     chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${alt.Player.all.length -= 1} players online)`);

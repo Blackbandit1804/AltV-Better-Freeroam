@@ -1,6 +1,6 @@
-import*as alt from"alt";
+import * as alt from "alt";
 
 alt.onClient("kickme",(player)=>{
-	player.kick("Idle Kick");
-	console.log("[IdleKick] Kicking Player " + player.name)
+	alt.emit('GlobalSystems:KickPlayer', player, "Idle Kick");
+	console.log("[IdleKick] Kicking Player " + player.name);
 });
