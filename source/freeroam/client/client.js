@@ -246,6 +246,10 @@ function load_island() {
     let dist = native.getDistanceBetweenCoords(islandpos.x, islandpos.y, islandpos.z, player.pos.x, player.pos.y, player.pos.z, false);
     if (dist <= 2500 && !loaded) {
         game.setIplSetEnabled('HeistIsland', true);
+		native.doorControl(alt.hash("h4_prop_h4_gate_r_03a"), 4981.012, -5712.747, 20.78103, true, 0, 0, -10);
+		native.doorControl(alt.hash("h4_prop_h4_gate_l_03a"), 4984.134, -5709.249, 20.78103, true, 0, 0, 10);
+		native.doorControl(alt.hash("h4_prop_h4_gate_r_03a"), 4990.681, -5715.106, 20.78103, true, 0, 0, -10);
+		native.doorControl(alt.hash("h4_prop_h4_gate_l_03a"), 4987.587, -5718.635, 20.78103, true, 0, 0, 10);
 		loaded = true;
     } 
     else if (dist > 2500 && loaded) {
