@@ -17,6 +17,9 @@ namespace VnXGlobalSystems.Globals
         [ServerEvent("GlobalSystems:RemoveAllPlayerWeapons")]
         public static void RemoveAllPlayerWeapon(PlayerModel player) => player.RemoveAllPlayerWeapons();
 
+        [ServerEvent("GlobalSystems:KickPlayer")]
+        public static void KickPlayer(PlayerModel player, string reason) => player.Kick(reason);
+
         ////////////////////////// Player Anticheat /////////////////////////////////////////////////////////
         [ServerEvent("GlobalSystems:PlayerGodmode")]
         public static void PlayerGodmode(PlayerModel player, bool Godmode) => player.SetPlayerGodmode(Godmode);

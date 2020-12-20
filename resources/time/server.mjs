@@ -1,5 +1,5 @@
 import * as alt from 'alt';
-import Weather from './weather';
+import Weather from './time';
 
 let weatherSync = new Weather();
 
@@ -9,13 +9,5 @@ alt.on('resourceStart', () => {
 
 alt.on('resourceStop', () => {
     weatherSync.stopSync();
-});
-
-alt.on('consoleCommand', (msg) => {
-    switch(msg){
-        case "currentData": weatherSync.getCurrentData();
-            break;
-        default: break;
-    }
 });
 

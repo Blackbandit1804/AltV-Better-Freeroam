@@ -29,61 +29,11 @@ alt.onClient('chatmessage', (player, msg) => {
             invokeCmd(player, cmd, args);
         }
     } else {
-        if (mutedPlayers.has(player.name) && mutedPlayers.get(player.name)) {
-            send(player, '{FF0000} You are currently muted.');
-            return;
-        }
-
-        if (cancelAllChat) {
-            alt.emit('chatIntercept', player, msg);
-            return;
-        }
-
         msg = msg.trim();
 
         if (msg.length <= 0) return;
 
         alt.log('[==> CHAT] ' + player.name + ': ' + msg);
-
-        if (rangedChat) {
-            var playersInRange = alt.Player.all.filter(
-                x => Distance(player.pos, x.pos) <= rangeOfChat
-            );
-
-            if (playersInRange.length <= 0) return;
-
-            var closePlayers = playersInRange.filter(
-                x => Distance(player.pos, x.pos) <= rangeOfChat / 2
-            );
-            var farPlayers = playersInRange.filter(
-                x => Distance(player.pos, x.pos) >= rangeOfChat / 2
-            );
-
-            closePlayers.forEach(target => {
-                alt.emitClient(
-                    target,
-                    'chatmessage',
-                    player.name,
-                    msg
-                        .replace(/</g, '&lt;')
-                        .replace(/'/g, '&#39')
-                        .replace(/"/g, '&#34')
-                );
-            });
-
-            farPlayers.forEach(target => {
-                alt.emitClient(
-                    target,
-                    'chatmessage',
-                    null,
-                    `{707070} ${player.name}: ${msg
-                        .replace(/</g, '&lt;')
-                        .replace(/'/g, '&#39')
-                        .replace(/"/g, '&#34')}`
-                );
-            });
-            return;
-        }
 
         alt.emitClient(
             null,
@@ -96,15 +46,6 @@ alt.onClient('chatmessage', (player, msg) => {
         );
     }
 });
-
-// Get the distance between two vectors.
-function Distance(vector1, vector2) {
-    return Math.sqrt(
-        Math.pow(vector1.x - vector2.x, 2) +
-            Math.pow(vector1.y - vector2.y, 2) +
-            Math.pow(vector1.z - vector2.z, 2)
-    );
-}
 
 export function send(player, msg) {
     alt.emitClient(player, 'chatmessage', null, msg);
@@ -120,14 +61,6 @@ export function registerCmd(cmd, callback) {
     } else {
         cmdHandlers[cmd] = callback;
     }
-}
-
-export function mute(player) {
-    mutedPlayers.set(player.name, true);
-}
-
-export function unmute(player) {
-    mutedPlayers.set(player.name, false);
 }
 
 // Formatting for in-chat debug messages.
@@ -155,16 +88,6 @@ export function debug(message) {
 export function setupPlayer(player) {
     player.sendMessage = msg => {
         send(player, msg);
-    };
-
-    player.mute = state => {
-        if (state) {
-            send(player, '{FF0000} You were muted.');
-        } else {
-            send(player, '{00FF00} You were unmuted.');
-        }
-
-        mutedPlayers.set(player.name, state);
     };
 }
 
