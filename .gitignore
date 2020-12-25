@@ -2,3 +2,9 @@
 cache/
 server.log
 resources/VenoX_Global_Systems/settings/debug/Anticheat.txt
+source/PlayerBlips/PlayerBlips/bin
+source/VenoX_Global_Systems/bin
+source/PlayerBlips/PlayerBlips/obj
+source/VenoX_Global_Systems/obj
+source/PlayerBlips/.vs
+source/VenoX_Global_Systems/.vs
