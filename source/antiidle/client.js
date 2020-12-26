@@ -9,17 +9,11 @@ function resetstate(){
     playerticks = minutestotimeout * 60;
 };
 
-alt.onServer('resetstate', ()=>{
-    resetstate();
-});
+alt.onServer('resetstate', ()=>{ resetstate(); });
 
-alt.on('keydown', (key) => {
-    resetstate();
-});
+alt.on('keydown', (key) => { resetstate(); });
 
-alt.on('keyup', (key) => {
-    resetstate();
-});
+alt.on('keyup', (key) => { resetstate(); });
 
 alt.setInterval(()=> {
     var positionx1 = player.pos.x;
@@ -42,4 +36,4 @@ alt.setInterval(()=> {
     }
 }, 60000), 1;
 
-alt.on('disconnect', () => {alt.clearInterval(0), alt.clearInterval(1)})
+alt.on('disconnect', () => { alt.clearInterval(0), alt.clearInterval(1) })

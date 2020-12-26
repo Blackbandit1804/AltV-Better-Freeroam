@@ -1,9 +1,10 @@
 import * as alt from 'alt';
 
-let loaded = false;
-let opened = false;
+let loaded = !1,
+    opened = !1;
 
 const view = new alt.WebView('http://resource/html/index.html');
+loaded = true;
 
 function menu(toggle) {
     opened = toggle;
@@ -19,10 +20,6 @@ function menu(toggle) {
 
     view.emit('menu', toggle);
 }
-
-view.on('ready', () => {
-    loaded = true;
-});
 
 view.on('menu', (toggle) => {
     menu(toggle);
