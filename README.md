@@ -6,14 +6,13 @@
 - Weapon Menu
 - Visual Model Changer
 - modded Visual Car Spawner
-- Anti Cheat (Local only)
+- Weapon Anti Cheat
 - Anti Idle
 
 ### Sources
 - [altV_GlobalBan](https://github.com/Nickwasused/AltV-Better-Freeroam/tree/main/source/VenoX_Global_Systems)
 - [Freeroam-Gamemode](https://github.com/altV-Resources-by-Neta/Freeroam-Gamemode)
 - [altV-Chat-Extended](https://github.com/Stuyk/altV-Chat-Extended)
-- [altV-Extended](https://github.com/Stuyk/altV-Extended)
 - [altv-speedometer](https://github.com/Blackbandit1804/altV-speedometer)
 - [Visual-Vehicle-Spawner](https://github.com/dusieq95/Visual-Vehicle-Spawner)
 - [Weather](https://github.com/MateqB/altv-os-weather-time-sync)
