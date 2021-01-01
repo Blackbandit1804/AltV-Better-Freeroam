@@ -66,7 +66,6 @@ alt.onServer('freeroam:Interiors', () => {
         "smboat_lod",
         "smboat_lodlights",
         "cargoship",
-        "railing_start",
         "sp1_10_real_interior",
         "sp1_10_real_interior_lod",
         "id2_14_during1",
@@ -126,8 +125,6 @@ alt.onServer('freeroam:Interiors', () => {
         "v_hospital",
         "RC12B_Destroyed",
         "RC12B_HospitalInterior",
-        "canyonriver01",
-        "canyonriver01_lod",
         "cs3_05_water_grp1",
         "cs3_05_water_grp1_lod",
         "trv1_trail_start",
@@ -244,8 +241,15 @@ alt.onServer('freeroam:Interiors', () => {
 		"h4_mph4_terrain_04_grass_3",
 		"h4_mph4_terrain_05_grass_0",
 		"h4_mph4_terrain_06_grass_0",
-		"h4_mph4_airstrip_interior_0_airstrip_hanger"
-    ]
+        "h4_mph4_airstrip_interior_0_airstrip_hanger",
+        "shutter_open",
+        "shr_int",
+        "Plane_crash_trench",
+        "prop_shamal_crash",
+        "crashed_cargoplane",
+        "canyonriver01_traincrash",
+        "railing_end"
+    ];
     var remove = [
         "FIBlobbyfake",
         "farm_burnt",
@@ -255,10 +259,7 @@ alt.onServer('freeroam:Interiors', () => {
         "farmint_cap_lod",
         "CS1_02_cf_offmission",
         "hei_bi_hw1_13_door",
-        "v_carshowroom",
-        "shutter_open",
         "shutter_closed",
-        "shr_int",
         "sp1_10_fake_interior",
         "sp1_10_fake_interior_lod",
         "id2_14_during_door",
@@ -278,12 +279,14 @@ alt.onServer('freeroam:Interiors', () => {
         "DT1_03_Shutter",
         "DT1_03_Gr_Closed",
         "RC12B_Default",
-        "RC12B_Fixed"
-    ]
+        "RC12B_Fixed",
+        "canyonriver01",
+        "railing_start"
+    ];
 	var casino1 = [
         "0x30240D11",
         "0xA3C89BB2"
-    ]
+    ];
 	var casino2 = [
         "teste1",
         "teste2",
@@ -299,14 +302,14 @@ alt.onServer('freeroam:Interiors', () => {
         "teste32",
         "teste33",
         "teste34"
-    ]
+    ];
 	var casino3 = [
         "teste1",
         "teste2",
         "teste3",
         "teste4",
         "teste11"
-    ]
+    ];
 
 	let coordLoc = native.getInteriorAtCoords(-141.1987, -620.913, 168.8205);
     native.pinInteriorInMemory(coordLoc);
