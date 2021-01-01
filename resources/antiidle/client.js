@@ -32,7 +32,7 @@ alt.setInterval(()=> {
 alt.setInterval(()=> {
     playerticks -= 60;
     if(playerticks<=0){
-        alt.emitServer("kickme", player)
+        alt.emitServer("kickme", player);
     }
 }, 60000), 1;
 

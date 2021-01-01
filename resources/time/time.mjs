@@ -13,7 +13,6 @@ export default class Weather {
 
 	registerEvents() {
         alt.on('GlobalSystems:PlayerReady', (player) => {
-            alt.emitClient(player, 'disableClock');
             this.setDate(player);
         });
     }
