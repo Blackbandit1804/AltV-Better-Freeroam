@@ -1,38 +1,120 @@
-"use strict";
-/// <reference path="typings/altv-client.d.ts"/>
-/// <reference path="typings/natives.d.ts"/>
 import * as alt from 'alt';
-import * as game from 'natives';
 import * as native from "natives";
+import * as game from 'natives';
 
 let player = alt.Player.local;
 
-alt.onServer("freeroam:spawned", function () {
-    game.setPedDefaultComponentVariation(alt.Player.local.scriptID);
-});
+function spawned(){
+    native.setPedDefaultComponentVariation(player);
+    native.startAudioScene("FBI_HEIST_H5_MUTE_AMBIENCE_SCENE"); // Used to stop police sound in town
+    native.cancelCurrentPoliceReport(); // Used to stop default police radio around/In police vehicle
+    native.clearAmbientZoneState("AZ_COUNTRYSIDE_PRISON_01_ANNOUNCER_GENERAL", 1, 0); // Turn off prison sound
+    native.clearAmbientZoneState("AZ_COUNTRYSIDE_PRISON_01_ANNOUNCER_WARNING", 1, 0); // Turn off prison sound
+    native.clearAmbientZoneState("AZ_COUNTRYSIDE_PRISON_01_ANNOUNCER_ALARM", 1, 0); // Turn off prison sound
+    native.setAmbientZoneState(0, 0, 0); // Set ambiant sound to 0,0,0
+    native.clearAmbientZoneState("AZ_DISTANT_SASQUATCH", 0, 0);
+    native.setAudioFlag("LoadMPData", true);
+    native.setAudioFlag("DisableFlightMusic", true);
+};
 
-alt.onServer("freeroam:clearPedBloodDamage", function () {
-    game.clearPedBloodDamage(alt.Player.local.scriptID);
-});
+function clearPedBloodDamage(){
+    game.clearPedBloodDamage(player);
+};
 
 alt.onServer("freeroam:switchInOutPlayer", (in_switch, instant_switch, switch_type) => {
     if(in_switch){
-        game.switchInPlayer(alt.Player.local.scriptID);
+        game.switchInPlayer(player);
     }else{
-        game.switchOutPlayer(alt.Player.local.scriptID, instant_switch, switch_type);
+        game.switchOutPlayer(player, instant_switch, switch_type);
     }
 });
 
-alt.onServer("freeroam:freeze", function () {
-	game.freezeEntityPosition(alt.Player.local.scriptID, true);
-});
+function freeze(){
+    game.freezeEntityPosition(player, true);
+};
 
-alt.onServer("freeroam:unfreeze", function () {
-	game.freezeEntityPosition(alt.Player.local.scriptID, false);
-});
+function unfreeze(){
+    game.freezeEntityPosition(player, false);
+};
 
-// Source: https://github.com/Stuyk/altV-Open-Roleplay/blob/5ccdeb9e960a7e0fde758cc89c366ed2953cc639/resources/orp/client/systems/interiors.mjs
-alt.onServer('freeroam:Interiors', () => {
+function sendNotification(textColor, bgColor, message, blink){
+    game.setColourOfNextTextComponent(textColor);
+    game.setNotificationBackgroundColor(bgColor);
+    game.setNotificationTextEntry("STRING");
+    game.addTextComponentSubstringPlayerName(message);
+    game.drawNotification(blink, false);
+};
+
+function setupblips(){
+    let hospitals = [
+        { x: 295.29229736328125, y: -1446.6856689453125, z: 29.953857421875 },
+        { x: 360.3164978027344, y: -585.3230590820312, z: 28.80810546875 },
+        { x: -449.26153564453125, y: -340.5230712890625, z: 34.4864501953125 },
+        { x: 1152.0263671875, y: -1527.5867919921875, z: 34.84033203125 },
+        { x: -676.7472534179688, y: 309.23077392578125, z: 83.081298828125 },
+        { x: -874.7604370117188, y: -307.9120788574219, z: 39.5582275390625 },
+        { x: 1821.1468446601941, y: 3674.7974053508206, z: 34.276729583740234 }
+    ];
+    
+    var police = [
+        { x: -1325.8495145631068, y: -1516.9403501258464, z: 10},
+        { x: -1085.4065533980583, y: -819.3358596608708, z: 10},
+        { x: 106.18932038834951, y: -729.8434740630345, z: 10},
+        { x: 152.45752427184465, y: -649.4520090344707, z: 10},
+        { x: 455.09708737864077, y: -985.4276600500763, z: 10},
+        { x: 838.1371359223301, y: -1289.5500890732317, z: 10},
+        { x: 364.8361650485437, y: -1592.914108048948, z: 10},
+        { x: -584.0412621359224, y: -131.30285517892062, z: 10},
+        { x: 618.9320388349514, y: -2.3731471142420197, z: 10},
+        { x: 377.7305825242718, y: 802.3488872282135, z: 10},
+        { x: 1846.9356796116504, y: 3686.1359426616445, z: 10},
+        { x: -448.2706310679612, y: 6010.918628325745, z: 10}
+    ];
+    
+    hospitals.forEach(hospital => {
+        createblip(new alt.Vector3(hospital), 61, false, "");
+    });
+    
+    police.forEach(police => {
+        createblip(new alt.Vector3(police), 60, false, "");
+    });
+
+    createblip(new alt.Vector3(301.002197265625, 2645.68359375, 207.786865234375), 590, true, "Los Santos");
+    createblip(new alt.Vector3(5089.52978515625, -5045.09033203125, 51.01611328125), 89, true, "Cayo Perico");
+    createblip(new alt.Vector3(3059.7890625, -4724.55810546875, 15.968505859375), 424, true, "Aircraft carrier");
+};
+
+function createblip(pos, id, customnamestate, label){
+    let blip = native.addBlipForCoord(pos.x, pos.y, pos.z);
+    native.setBlipSprite(blip, id);
+    native.setBlipAsShortRange(blip, true);
+    if (customnamestate == true){
+        native.beginTextCommandSetBlipName('STRING');
+        native.addTextComponentSubstringPlayerName(label);
+        native.endTextCommandSetBlipName(blip);
+    }
+    else {
+
+    };
+};
+
+function radar() {
+	native.setRadarAsExteriorThisFrame();
+	native.setRadarAsInteriorThisFrame(alt.hash("h4_fake_islandx"), 4700.0, -5145.0, 0, 0);
+};
+
+function playerstats(){
+    game.statSetInt(game.getHashKey("SP0_SPECIAL_ABILITY_UNLOCKED") , 100, true);
+    game.statSetInt(game.getHashKey("SP0_STAMINA") , 100, true);
+    game.statSetInt(game.getHashKey("SP0_STEALTH_ABILITY") , 100, true);
+    game.statSetInt(game.getHashKey("SP0_LUNG_CAPACITY") , 100, true);
+    game.statSetInt(game.getHashKey("SP0_FLYING_ABILITY") , 100, true);
+    game.statSetInt(game.getHashKey("SP0_SHOOTING_ABILITY") , 100, true);
+    game.statSetInt(game.getHashKey("SP0_STRENGTH") , 100, true);
+    game.statSetInt(game.getHashKey("SP0_WHEELIE_ABILITY") , 100, true);
+};
+
+function Interiors(){
     var request = [
         "chop_props",
         "FIBlobby",
@@ -248,7 +330,8 @@ alt.onServer('freeroam:Interiors', () => {
         "prop_shamal_crash",
         "crashed_cargoplane",
         "canyonriver01_traincrash",
-        "railing_end"
+        "railing_end",
+        "DT1_03_Shutter"
     ];
     var remove = [
         "FIBlobbyfake",
@@ -276,90 +359,66 @@ alt.onServer('freeroam:Interiors', () => {
         "ch1_02_closed",
         "scafstartimap",
         "DT1_05_HC_REMOVE",
-        "DT1_03_Shutter",
         "DT1_03_Gr_Closed",
         "RC12B_Default",
         "RC12B_Fixed",
         "canyonriver01",
-        "railing_start"
-    ];
-	var casino1 = [
-        "0x30240D11",
-        "0xA3C89BB2"
-    ];
-	var casino2 = [
-        "teste1",
-        "teste2",
-        "teste3",
-        "teste4",
-        "teste11",
-        "teste17",
-        "teste18",
-        "teste19",
-        "teste20",
-        "teste21",
-        "teste29",
-        "teste32",
-        "teste33",
-        "teste34"
-    ];
-	var casino3 = [
-        "teste1",
-        "teste2",
-        "teste3",
-        "teste4",
-        "teste11"
+        "railing_start",
+        "sunkcargoship"
     ];
 
-	let coordLoc = native.getInteriorAtCoords(-141.1987, -620.913, 168.8205);
-    native.pinInteriorInMemory(coordLoc);
-    alt.requestIpl('ex_dt1_02_office_02b');
-	
-	let interiorID = native.getInteriorAtCoords(1100.0, 220.0, -50.0);
-    if (native.isValidInterior(interiorID)) {
-		casino1.forEach(element => {
-			native.activateInteriorEntitySet(interiorID, element);
-		});
-        native.refreshInterior(interiorID);
-    };
-    interiorID = native.getInteriorAtCoords(976.6364, 70.29476, 115.1641);
-    if (native.isValidInterior(interiorID)) {
-		casino2.forEach(element => {
-			native.activateInteriorEntitySet(interiorID, element);
-		});
-		casino3.forEach(element => {
-			native.activateInteriorEntitySet(interiorID, element, 3);
-		});
-        native.refreshInterior(interiorID);
+    game.refreshInterior(274689)
+
+    for(var i = 1; i <= 15; i++){
+        game.setMinimapComponent(i, true);
     };
 	
     request.forEach(element => {
-        game.requestIpl(element);
+        native.requestIpl(element);
     });
     remove.forEach(element => {
-        game.removeIpl(element);
+        native.removeIpl(element);
     });
 	native.doorControl(alt.hash("h4_prop_h4_gate_r_03a"), 4981.012, -5712.747, 20.78103, true, 0, 0, -10);
 	native.doorControl(alt.hash("h4_prop_h4_gate_l_03a"), 4984.134, -5709.249, 20.78103, true, 0, 0, 10);
 	native.doorControl(alt.hash("h4_prop_h4_gate_r_03a"), 4990.681, -5715.106, 20.78103, true, 0, 0, -10);
 	native.doorControl(alt.hash("h4_prop_h4_gate_l_03a"), 4987.587, -5718.635, 20.78103, true, 0, 0, 10);
-	native.setDeepOceanScaler(0.0);
-});
-
-alt.onServer("freeroam:sendNotification", sendNotification);
-
-function sendNotification(textColor, bgColor, message, blink){
-    game.setColourOfNextTextComponent(textColor);
-    game.setNotificationBackgroundColor(bgColor);
-    game.setNotificationTextEntry("STRING");
-    game.addTextComponentSubstringPlayerName(message);
-    game.drawNotification(blink, false);
+    native.setDeepOceanScaler(0.0);
 };
+
+alt.onServer("freeroam:freeze", freeze);
+alt.onServer("freeroam:unfreeze", unfreeze);
+alt.onServer("freeroam:clearPedBloodDamage", clearPedBloodDamage);
+alt.onServer("freeroam:spawned", spawned);
+alt.onServer("freeroam:sendNotification", sendNotification);
+alt.onServer("freeroam:setupblips", setupblips);
+alt.onServer("freeroam:Interiors", Interiors);
+alt.onServer("freeroam:playerstats", playerstats);
 
 new alt.PointBlip(6500, -6500, 20).alpha = 0;
 alt.setInterval(radar, 1);
 
-function radar() {
-	game.setRadarAsExteriorThisFrame();
-	game.setRadarAsInteriorThisFrame(alt.hash("h4_fake_islandx"), 4700.0, -5145.0, 0, 0);
-};
+alt.setInterval(() => {
+    native.invalidateIdleCam();
+    native._0x9E4CFFF989258472();
+}, 25000);
+
+alt.on( 'nativeEntityCreate', ( entity ) => {
+    if(entity instanceof alt.Player)
+      {
+        alt.setTimeout(() => {
+              if( !native.doesBlipExist( native.getBlipFromEntity( entity.scriptID ) ) ) {
+                let blip = native.addBlipForEntity( entity.scriptID );
+                native.setBlipDisplay( blip, 8 );
+                native.showHeadingIndicatorOnBlip( blip, true);
+                native.setBlipCategory( blip, 7 );
+                native.setBlipAsFriendly( blip, true );
+                native.setBlipAsShortRange( blip, true );
+                native.setBlipSprite( bliptse, 439 );
+                native.hideNumberOnBlip( blip );
+                native.setBlipScale( blip, 1.0 );
+                native.setBlipColour( blip, 0 );
+            }
+        }, 600);
+      }
+} ); 

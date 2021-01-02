@@ -768,7 +768,8 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
 	player.model = spawnModels[getRandomListEntry(spawnModels)];
     player.setMeta("vehicles", []);
     spawnplayer(player);
-    alt.emitClient(player, "freeroam:spawned");
+	alt.emitClient(player, "freeroam:spawned");
+	alt.emitClient(player, "freeroam:setupblips");
     setTimeout(function(){ 
         if(player !== undefined){
             chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${alt.Player.all.length} players online)`);
@@ -778,7 +779,7 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
     }, 1000);
 });
 
-alt.on('playerDeath', (player, killer) => {
+alt.on('playerDeath', (player) => {
     alt.emitClient(player, "freeroam:switchInOutPlayer", false, 0, 2);
     setTimeout(function(){
         if(player !== undefined){
@@ -795,6 +796,7 @@ function spawnplayer(player ){
 	player.spawn(spawn.x, spawn.y, spawn.z, 1);
 	player.health = 200;
 	player.armour = 100;
+	alt.emitClient(player, "freeroam:playerstats");
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
 	alt.emitClient(player, "freeroam:unfreeze");
 };

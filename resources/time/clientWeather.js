@@ -1,6 +1,6 @@
 import * as alt from 'alt';
-import * as game from 'natives';
+import * as native from 'natives';
 
 alt.on('connectionComplete', ()=>{
-    game.pauseClock(true);
+    native.pauseClock(true);
 });

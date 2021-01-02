@@ -23,17 +23,6 @@ function menu(toggle) {
     view.emit('menu', toggle);
 }
 
-function promisify(callback) {
-    return new Promise((resolve, reject) => {
-        let loader = alt.setInterval(() => {
-            if (callback() == true) {
-                resolve(true);
-                alt.clearInterval(loader);
-            }
-        }, 10);
-    });
-}
-
 view.on('menu', (toggle) => {
     menu(toggle);
 });
@@ -54,9 +43,19 @@ alt.on('keyup', (key) => {
 
 alt.on('disconnect', () => { view.destroy() })
 
-alt.onServer('setPedIntoVehicle', async (vehicle) => {
-    await promisify(() => {
-        if (player.vehicle) return true;
-        native.setPedIntoVehicle(player.scriptID, vehicle.scriptID, -1);
-    });
+alt.onServer("setPedIntoVehicle", (vehicle) => {
+    let cleared = false;
+    const interval = alt.setInterval(() => {
+        const vehicleScriptId = vehicle.scriptID;
+        if (vehicleScriptId) {
+            native.setPedIntoVehicle(player.scriptID, vehicleScriptId, -1);
+            alt.clearInterval(interval);
+            cleared = true;
+        }
+    }, 10);
+    alt.setTimeout(() => {
+        if (!cleared) {
+            alt.clearInterval(interval);
+        }
+    }, 5000);
 });
