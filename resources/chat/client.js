@@ -1,6 +1,5 @@
 import * as alt from 'alt';
 import * as native from 'natives';
-import * as game from 'natives';
 
 let buffer = [];
 
@@ -84,8 +83,8 @@ alt.on('keyup', (key) => {
 
 	if (key == 0x76) {
 		hidden = !hidden;
-		game.displayHud(!hidden);
-		game.displayRadar(!hidden);
+		native.displayHud(!hidden);
+		native.displayRadar(!hidden);
 		view.emit('hideChat', hidden);
 	}
 });
