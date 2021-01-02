@@ -1,6 +1,5 @@
 import * as alt from 'alt';
 import * as native from "natives";
-import * as game from 'natives';
 
 let player = alt.Player.local;
 
@@ -18,31 +17,31 @@ function spawned(){
 };
 
 function clearPedBloodDamage(){
-    game.clearPedBloodDamage(player);
+    native.clearPedBloodDamage(alt.Player.local.scriptID);
 };
 
 alt.onServer("freeroam:switchInOutPlayer", (in_switch, instant_switch, switch_type) => {
     if(in_switch){
-        game.switchInPlayer(player);
+        native.switchInPlayer(alt.Player.local.scriptID);
     }else{
-        game.switchOutPlayer(player, instant_switch, switch_type);
+        native.switchOutPlayer(alt.Player.local.scriptID, instant_switch, switch_type);
     }
 });
 
 function freeze(){
-    game.freezeEntityPosition(player, true);
+    native.freezeEntityPosition(alt.Player.local.scriptID, true);
 };
 
 function unfreeze(){
-    game.freezeEntityPosition(player, false);
+    native.freezeEntityPosition(alt.Player.local.scriptID, false);
 };
 
 function sendNotification(textColor, bgColor, message, blink){
-    game.setColourOfNextTextComponent(textColor);
-    game.setNotificationBackgroundColor(bgColor);
-    game.setNotificationTextEntry("STRING");
-    game.addTextComponentSubstringPlayerName(message);
-    game.drawNotification(blink, false);
+    native.setColourOfNextTextComponent(textColor);
+    native.setNotificationBackgroundColor(bgColor);
+    native.setNotificationTextEntry("STRING");
+    native.addTextComponentSubstringPlayerName(message);
+    native.drawNotification(blink, false);
 };
 
 function setupblips(){
@@ -104,14 +103,14 @@ function radar() {
 };
 
 function playerstats(){
-    game.statSetInt(game.getHashKey("SP0_SPECIAL_ABILITY_UNLOCKED") , 100, true);
-    game.statSetInt(game.getHashKey("SP0_STAMINA") , 100, true);
-    game.statSetInt(game.getHashKey("SP0_STEALTH_ABILITY") , 100, true);
-    game.statSetInt(game.getHashKey("SP0_LUNG_CAPACITY") , 100, true);
-    game.statSetInt(game.getHashKey("SP0_FLYING_ABILITY") , 100, true);
-    game.statSetInt(game.getHashKey("SP0_SHOOTING_ABILITY") , 100, true);
-    game.statSetInt(game.getHashKey("SP0_STRENGTH") , 100, true);
-    game.statSetInt(game.getHashKey("SP0_WHEELIE_ABILITY") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_SPECIAL_ABILITY_UNLOCKED") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_STAMINA") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_STEALTH_ABILITY") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_LUNG_CAPACITY") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_FLYING_ABILITY") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_SHOOTING_ABILITY") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_STRENGTH") , 100, true);
+    native.statSetInt(native.getHashKey("SP0_WHEELIE_ABILITY") , 100, true);
 };
 
 function Interiors(){
@@ -367,10 +366,10 @@ function Interiors(){
         "sunkcargoship"
     ];
 
-    game.refreshInterior(274689)
+    native.refreshInterior(274689)
 
     for(var i = 1; i <= 15; i++){
-        game.setMinimapComponent(i, true);
+        native.setMinimapComponent(i, true);
     };
 	
     request.forEach(element => {
