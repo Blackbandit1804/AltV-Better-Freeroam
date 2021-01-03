@@ -24,7 +24,6 @@ function setupidle(player){
 	
 	alt.setInterval(()=> {
 		playerticks -= playerticks / 2;
-		alt.log(playerticks);
 		if(playerticks<=0){
 			alt.emit('GlobalSystems:KickPlayer', player, "Idle Kick");
 			console.log("[IdleKick] Kicking Player " + player.name);
