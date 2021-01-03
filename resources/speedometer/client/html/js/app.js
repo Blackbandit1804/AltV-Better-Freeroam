@@ -1,29 +1,68 @@
-$(() =>
-{
-	$("#speedometer").length && alt.on("speedometer:data", e =>
-	{
-		let t = e.speed,
-			r = e.gear,
-			s = e.rpm,
-			n = e.isElectric,
-			i = r,
-			o = 0,
-			l = 0,
-			a = ["R", "P", 1, 2, 3, 4, 5, 6];
-		n && (a = ["R", "P", 1]);
-		let h = 0;
-		0 === t ? h = 1 : 0 === i && t > 0 ? h = 0 : 1 === i ? h = 2 : 6 === i ? h = 7 : (o = r + 1, l = r - 1, h = r + 1), i = a[h], o = void 0 !== a[h + 1] ? a[h + 1] : "", l = "" !== (l = void 0 !== a[h - 1] ? a[h - 1] : "") ? l : "-", o = "" !== o ? o : "-";
-		let d = (s / 1e4 * 100).toFixed(0) < 90 ? "none" : "block";
-		"R" !== i && "P" !== i && 6 !== i || (d = "none"), n && i > 0 && (d = "none");
-		let c = Math.round(s / 1e3 * 27 + 180);
+$(() => {
+    // speedometer
+    if ($("#speedometer").length) {
+        alt.on('speedometer:data', (data) => {
+            let speed = data.speed;
+            let gear = data.gear;
+            let rpm = data.rpm;
+            let isElectric = data.isElectric;
 
-		function g(e)
-		{
-			let t = "#FFF";
-			!1 === e && (t = "#424242"), $("#pin").css("color", t).css("border-color", t), $("#kmh").css("color", t);
-			for (let e = 1; e <= 18; e++) $(".ii div:nth-child(" + e + ") > b").css("background-color", t);
-			for (let e = 1; e <= 9; e++) $(".num_" + e).css("color", t)
-		}
-		$("#needle").css("transform", "rotate(" + c + "deg)"), $("#gearNext").text(o), $("#gearCurrent").text(i), $("#gearBefore").text(l), $("#shift").css("display", d), $("#speed").text(t), $(".lightOff").css("color", "#FFF"), $("#fuelbar > div").css("height", e.fuelPercentage + "%"), g(!0), e.isEngineRunning || (g(!1), $("#needle").css("transform", "rotate(180deg)"), $("#shift").css("display", "none"), t > 0 ? ($("#gearNext").text("P"), $("#gearCurrent").text("N"), $("#gearBefore").text("R")) : ($("#gearNext").text("1"), $("#gearCurrent").text("P"), $("#gearBefore").text("R"))), e.isEngineRunning ? (e.handbrakeActive ? $("#handbrake").show() : $("#handbrake").hide(), e.isVehicleOnAllWheels ? $("#inair").hide() : $("#inair").show(), 1 === e.lightState ? $("#lightsOn").show().css("color", "#193a61") : 2 === e.lightState ? $("#lightsOn").show().css("color", "#3b97ff") : $("#lightsOn").hide(), $("#fuel").show()) : ($("#handbrake").hide(), $("#inair").hide(), $("#lightsOn").hide(), $("#fuel").hide())
-	})
-});
+            let gearCurrent = gear;
+            let gearNext = 0;
+            let gearBefore = 0;
+
+            let gearOrder = ['R', 'P', 1, 2, 3, 4, 5, 6];
+            if (isElectric) gearOrder = ['R', 'P', 1];
+            let gearIndex = 0;
+
+            if (speed === 0) {// parking
+                gearIndex = 1;
+            } else if (gearCurrent === 0 && speed > 0) {// backwards
+                gearIndex = 0;
+            } else if (gearCurrent === 1) {// first gear
+                gearIndex = 2;
+            } else if (gearCurrent === 6) {// last gear
+                gearIndex = 7;
+            } else {
+                gearNext = gear + 1;
+                gearBefore = gear - 1;
+                gearIndex = gear + 1;
+            }
+
+            gearCurrent = gearOrder[gearIndex];
+            gearNext = gearOrder[gearIndex + 1] !== undefined ? gearOrder[gearIndex + 1] : '';
+            gearBefore = gearOrder[gearIndex - 1] !== undefined ? gearOrder[gearIndex - 1] : '';
+            gearBefore = gearBefore !== '' ? gearBefore : '-';
+            gearNext = gearNext !== '' ? gearNext : '-';
+
+            let rpmPercent = (rpm / 10000 * 100).toFixed(0);
+
+            let displayShiftUp = rpmPercent < 90 ? 'none' : 'block';
+            if (gearCurrent === 'R' || gearCurrent === 'P' || gearCurrent === 6) displayShiftUp = 'none';
+            if (isElectric) if (gearCurrent > 0) displayShiftUp = 'none';
+
+            let transform = Math.round(rpm / 1000 * 27 + 180);
+            $("#needle").css("transform", "rotate("+transform+"deg)");
+
+            $("#gearNext").text(gearNext);
+            $("#gearCurrent").text(gearCurrent);
+            $("#gearBefore").text(gearBefore);
+            $("#shift").css("display", displayShiftUp);
+            $("#speed").text(speed);
+            $(".lightOff").css("color", "#FFF");
+
+            function toggleLight(state) {
+                let color = "#FFF";
+                if (state === false) color = "#424242";
+                $("#pin").css("color", color).css("border-color", color);
+                $("#mph").css("color", color);
+                for (let i = 1; i <= 18; i++) {
+                    $(".ii div:nth-child("+i+") > b").css("background-color", color);
+                }
+                for (let i = 1; i <= 9; i++) {
+                    $(".num_" + i).css("color", color);
+                }
+            }
+        });
+    }
+}); 

@@ -1,46 +1,46 @@
-import * as alt from "alt";
-import * as native from "natives";
-let electric = [2445973230, 1560980623, 1147287684, 3164157193, 2400073108, 544021352, 2672523198, 1031562256, 1392481335, 2765724541],
-	handbrakeActive = !1;
-alt.on("keydown", e =>
-{
-	if (32 === e && (handbrakeActive = !0), 35 === e)
-	{
-		let e = alt.Player.local.vehicle;
-		if (e)
-		{
-			native.getIsVehicleEngineRunning(e.scriptID) ? native.setVehicleEngineOn(e.scriptID, !1, !0, !0) : native.setVehicleEngineOn(e.scriptID, !0, !0, !0)
-		}
-	}
-}), alt.on("keyup", e =>
-{
-	32 === e && (handbrakeActive = !1)
-});
-let webView = null,
-	fuelPercentage = 80;
-alt.everyTick(() =>
-{
-	let e = alt.Player.local.vehicle;
-	if (e)
-		if (webView)
-		{
-			let t = native.getVehicleLightsState(e.scriptID, !1, !1),
-				i = 0;
-			t[1] && !t[2] && (i = 1), t[1] && t[2] && (i = 2), webView.emit("speedometer:data",
-			{
-				gear: parseInt(e.gear),
-				rpm: parseInt((1e4 * e.rpm).toFixed(0)),
-				speed: parseInt((2.23693 * native.getEntitySpeed(e.scriptID)).toFixed(0)),
-				isElectric: electric.includes(e.model),
-				isEngineRunning: native.getIsVehicleEngineRunning(e.scriptID),
-				isVehicleOnAllWheels: native.isVehicleOnAllWheels(e.scriptID),
-				handbrakeActive: handbrakeActive,
-				lightState: i,
-				fuelPercentage: fuelPercentage
-			})
-		}
-	else(webView = new alt.WebView("http://resource/client/html/speedometer.html")).focus();
-	else webView && (webView.destroy(), webView = null)
-}), 0;
+import * as alt from 'alt';
+import * as native from 'natives';
 
-alt.on('disconnect', () => {alt.clearInterval(0)})
+let electric = [
+    2445973230,// neon
+    1560980623,// airtug
+    1147287684,// caddy
+	3757070668,// caddy2
+	3525819835,// caddy3
+    3164157193,// dilettante
+    2400073108,// surge
+    544021352,// khamelion 
+    2672523198,// voltic
+	989294410,// voltic2
+	4008920556,// rcbandito
+	3162245632,// imorgon
+	3040635986,// minitank
+    1031562256,// tezeract
+    1392481335,// cyclone
+    2765724541// raiden
+];
+
+let webView = null;
+alt.everyTick(() => {
+    let vehicle = alt.Player.local.vehicle;
+    if (vehicle) {
+        if (!webView) {
+            webView = new alt.WebView('http://resource/client/html/speedometer.html');
+            webView.focus();
+        } else {
+            webView.emit('speedometer:data', {
+                gear: parseInt(vehicle.gear),
+                rpm: parseInt((vehicle.rpm * 10000).toFixed(0)),
+                speed: parseInt((native.getEntitySpeed(vehicle.scriptID) * 2.23693).toFixed(0)),
+                isElectric: electric.includes(vehicle.model),
+                isEngineRunning: native.getIsVehicleEngineRunning(vehicle.scriptID),
+                isVehicleOnAllWheels: native.isVehicleOnAllWheels(vehicle.scriptID)
+            });
+        }
+    } else {
+        if (webView) {
+            webView.destroy();
+            webView = null;
+        }
+    }
+}); 

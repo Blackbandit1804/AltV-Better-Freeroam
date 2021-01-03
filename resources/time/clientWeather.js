@@ -1,6 +1,6 @@
 import * as alt from 'alt';
-import * as game from 'natives';
+import * as native from 'natives';
 
-alt.onServer('disableClock', ()=>{
-    game.pauseClock(true);
+alt.on('connectionComplete', ()=>{
+    native.pauseClock(true);
 });

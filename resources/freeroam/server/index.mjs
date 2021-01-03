@@ -768,7 +768,8 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
 	player.model = spawnModels[getRandomListEntry(spawnModels)];
     player.setMeta("vehicles", []);
     spawnplayer(player);
-    alt.emitClient(player, "freeroam:spawned");
+	alt.emitClient(player, "freeroam:spawned");
+	alt.emitClient(player, "freeroam:setupblips");
     setTimeout(function(){ 
         if(player !== undefined){
             chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${alt.Player.all.length} players online)`);
@@ -778,7 +779,7 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
     }, 1000);
 });
 
-alt.on('playerDeath', (player, killer) => {
+alt.on('playerDeath', (player) => {
     alt.emitClient(player, "freeroam:switchInOutPlayer", false, 0, 2);
     setTimeout(function(){
         if(player !== undefined){
@@ -795,13 +796,9 @@ function spawnplayer(player ){
 	player.spawn(spawn.x, spawn.y, spawn.z, 1);
 	player.health = 200;
 	player.armour = 100;
+	alt.emitClient(player, "freeroam:playerstats");
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
 	alt.emitClient(player, "freeroam:unfreeze");
-};
-
-export function kickplayer(player, reason) {
-    player.kick(reason);
-	console.log("[IdleKick] Kicking Player " + player.name);
 };
 
 alt.on('playerDisconnect', (player, reason) => {
@@ -815,14 +812,14 @@ alt.on('playerDisconnect', (player, reason) => {
     alt.log(`${player.name} has leaved the server becauseof ${reason}`);
 });
 
-chat.registerCmd("help", function (player, args) {
+chat.registerCmd("help", function (player) {
     chat.send(player, "{ff0000}========== {eb4034}HELP {ff0000} ==========");
     chat.send(player, "{ff0000}= {34abeb}/pos {40eb34} {ffffff} Get your Position in the game world");
 	chat.send(player, "{80eb34}= {34dfeb}F1={80eb34}Weapon Menu {34dfeb}F2={80eb34}Car Spawner {34dfeb}F3={80eb34}Model Changer");
     chat.send(player, "{ff0000} ========================");
 });
 
-chat.registerCmd("pos", function (player, args) {
+chat.registerCmd("pos", function (player) {
     alt.log(`Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
     chat.send(player, `Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
 });

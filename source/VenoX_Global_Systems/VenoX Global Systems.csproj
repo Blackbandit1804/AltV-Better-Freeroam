@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>VnXGlobalSystems</RootNamespace>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AltV.Net" Version="1.40.4" />
-    <PackageReference Include="AltV.Net.Async" Version="1.40.1" />
+    <PackageReference Include="AltV.Net" Version="1.48.2" />
+    <PackageReference Include="AltV.Net.Async" Version="1.48.1" />
   </ItemGroup>
 </Project>

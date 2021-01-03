@@ -3,14 +3,11 @@ import * as alt from "alt";
 let loaded = !1,
     opened = !1;
 const view = new alt.WebView("http://resource/html/index.html");
+loaded = true;
 
 function menu(e) {
     opened = e, alt.showCursor(e), alt.toggleGameControls(!e), e ? view.focus() : view.unfocus(), view.emit("menu", e)
 }
-
-view.on('ready', () => {
-    loaded = true;
-});
 
 view.on('menu', (toggle) => {
     menu(toggle);

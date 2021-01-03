@@ -1,10 +1,6 @@
 import alt from 'alt';
 
 let cmdHandlers = {};
-let mutedPlayers = new Map();
-let rangedChat = false;
-let rangeOfChat = 25;
-let cancelAllChat = false;
 
 function invokeCmd(player, cmd, args) {
     const callback = cmdHandlers[cmd];
