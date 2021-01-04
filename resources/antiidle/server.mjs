@@ -1,41 +1,52 @@
 import * as alt from "alt";
 
-var minutestotimeout = 10;
-var playerticks = minutestotimeout * 60;
-
-alt.on('playerConnect', setupidle);
-
-function resetstate(){
-    playerticks = minutestotimeout * 60;
-};
+alt.on('GlobalSystems:PlayerReady', setupidle);
 
 function setupidle(player){
-	alt.setInterval(()=> {
-		var positionx1 = player.pos.x;
-		var positiony1 = player.pos.y;
-		alt.setTimeout(() => {
-			var positionx2 = player.pos.x;
-			var positiony2 = player.pos.y;
-			if(positionx1 != positionx2 | positiony1 != positiony2){
-				resetstate();
-			}
-		}, playerticks * 1000 / 4);
-	}, playerticks * 1000 / 2), 0;
+	function getcords(player, type){
+		if (type == "x") {
+			let position = player.pos.x;
+			return position;
+		} else if (type == "y") {
+			let position = player.pos.y;
+			return position;
+		} else {
+			return;
+		};
+	};
+
+	var minutestotimeout = 10;
+	const playerticksdefined = minutestotimeout * 60;
+	var playerticks = minutestotimeout * 60;
+
+	var positionx1 = getcords(player, "x");;
+	var positiony1 = getcords(player, "y");;
+
+	const intervalcheck = alt.setInterval(()=> {
+		positionx1 = getcords(player, "x");
+		positiony1 = getcords(player, "y");
+	}, playerticksdefined * 100 / 2);
+
+	const intervalcheck2 = alt.setInterval(() => {
+		let positionx2 = getcords(player, "x");
+		let positiony2 = getcords(player, "y");
+		if(positionx1 != positionx2 | positiony1 != positiony2){
+			playerticks = minutestotimeout * 60;
+		}
+	}, playerticksdefined * 100 / 3);
 	
-	alt.setInterval(()=> {
-		playerticks -= playerticks / 2;
+	const intervalkick = alt.setInterval(()=> {
+		playerticks -= playerticksdefined / 10;
 		if(playerticks<=0){
 			alt.emit('GlobalSystems:KickPlayer', player, "Idle Kick");
-			console.log("[IdleKick] Kicking Player " + player.name);
-			alt.clearInterval(0);
-			alt.clearInterval(1);
 		}
-	}, playerticks * 1000 / 2), 1;
-};
+	}, playerticksdefined * 100);
 
-function killidle(){
-	alt.clearInterval(0);
-	alt.clearInterval(1);
-};
+	function disconnect(){
+		alt.clearInterval(intervalcheck);
+		alt.clearInterval(intervalcheck2);
+		alt.clearInterval(intervalkick);
+	};
 
-alt.on('playerDisconnect', killidle);
+	alt.on('playerDisconnect', disconnect);
+};

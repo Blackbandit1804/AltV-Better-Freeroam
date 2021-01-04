@@ -18,29 +18,42 @@ let electric = [
     1031562256,// tezeract
     1392481335,// cyclone
     2765724541// raiden
-];
+    ],
+    state,
+    checkInterval,
+    view = new alt.WebView('http://resource/client/html/speedometer.html');
 
-let webView = null;
-alt.everyTick(() => {
-    let vehicle = alt.Player.local.vehicle;
+function vehiclestate(vehicle) {
     if (vehicle) {
-        if (!webView) {
-            webView = new alt.WebView('http://resource/client/html/speedometer.html');
-            webView.focus();
-        } else {
-            webView.emit('speedometer:data', {
-                gear: parseInt(vehicle.gear),
-                rpm: parseInt((vehicle.rpm * 10000).toFixed(0)),
-                speed: parseInt((native.getEntitySpeed(vehicle.scriptID) * 2.23693).toFixed(0)),
-                isElectric: electric.includes(vehicle.model),
-                isEngineRunning: native.getIsVehicleEngineRunning(vehicle.scriptID),
-                isVehicleOnAllWheels: native.isVehicleOnAllWheels(vehicle.scriptID)
-            });
-        }
+        state = true;
     } else {
-        if (webView) {
-            webView.destroy();
-            webView = null;
-        }
-    }
-}); 
+        state = false;
+    };
+};
+
+function speedometer() {
+    let vehicle = alt.Player.local.vehicle;
+    vehiclestate(vehicle);
+    if (state == true) {
+        view.emit('status', true);
+        view.emit('speedometer:data', {
+            gear: parseInt(vehicle.gear),
+            rpm: parseInt((vehicle.rpm * 10000).toFixed(0)),
+            speed: parseInt((native.getEntitySpeed(vehicle.scriptID) * 2.23693).toFixed(0)),
+            isElectric: electric.includes(vehicle.model)
+        });
+    } else if (state == false) {
+        view.emit('status', false);
+    };
+};
+
+alt.on('connectionComplete', () => {
+    checkInterval = alt.setInterval(() => {
+        speedometer();
+    }, 10);
+});
+
+alt.on('disconnect', () => { 
+    clearInterval(checkInterval);
+    view.destroy();
+});
