@@ -3,17 +3,6 @@ import * as alt from "alt";
 alt.on('playerConnect', setupidle);
 
 function setupidle(player){
-	var minutestotimeout = 10;
-	let playerticksdefined = minutestotimeout * 60;
-	let playerticks = playerticksdefined;
-
-	let positionx1;
-	let positiony1;
-
-	function resetstate(){
-		playerticks = playerticksdefined;
-	};
-
 	function getcords(player, type){
 		if (type == "x") {
 			let position = player.pos.x;
@@ -26,31 +15,38 @@ function setupidle(player){
 		};
 	};
 
+	var minutestotimeout = 10;
+	const playerticksdefined = minutestotimeout * 60;
+	var playerticks = minutestotimeout * 60;
+
+	var positionx1 = getcords(player, "x");;
+	var positiony1 = getcords(player, "y");;
+
 	const intervalcheck = alt.setInterval(()=> {
 		positionx1 = getcords(player, "x");
 		positiony1 = getcords(player, "y");
-	}, playerticksdefined * 1000 / 2);
+	}, playerticksdefined * 100 / 2);
 
-	const intervalcheck2 = alt.setTimeout(() => {
-		var positionx2 = getcords(player, "x");
-		var positiony2 = getcords(player, "y");
+	const intervalcheck2 = alt.setInterval(() => {
+		let positionx2 = getcords(player, "x");
+		let positiony2 = getcords(player, "y");
 		if(positionx1 != positionx2 | positiony1 != positiony2){
-			resetstate();
-		};
-	}, playerticksdefined * 1000 / 4);
+			playerticks = minutestotimeout * 60;
+		}
+	}, playerticksdefined * 100 / 3);
 	
 	const intervalkick = alt.setInterval(()=> {
-		playerticks -= playerticksdefined / 2;
+		playerticks -= playerticksdefined / 10;
 		if(playerticks<=0){
 			alt.emit('GlobalSystems:KickPlayer', player, "Idle Kick");
-			console.log("[IdleKick] Kicking Player " + player.name);
 		}
-	}, playerticksdefined * 1000 / 2);
+	}, playerticksdefined * 100);
 
 	function disconnect(){
 		alt.clearInterval(intervalcheck);
 		alt.clearInterval(intervalcheck2);
 		alt.clearInterval(intervalkick);
 	};
+
 	alt.on('playerDisconnect', disconnect);
 };
