@@ -7,8 +7,8 @@ alt.onClient('playerSpawnVehicle', (player, model, position, rotation) => {
         player.vehicles.splice(0, 1);
     }
     let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
-    alt.emitClient(player, 'setPedIntoVehicle', vehicle);
     player.vehicles.push(vehicle);
+    alt.emitClient(player, 'setPedIntoVehicle', vehicle);
 });
 
 alt.on('GlobalSystems:PlayerReady', (player) => {
@@ -16,8 +16,7 @@ alt.on('GlobalSystems:PlayerReady', (player) => {
 });
 
 alt.on('playerDisconnect', (player) => {
-    const vehicles = player.vehicles;
-    vehicles.forEach(vehicle => {
+    player.vehicles.forEach(vehicle => {
         vehicle.destroy();
     });
 });

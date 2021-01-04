@@ -50,19 +50,6 @@ $(() => {
             $("#shift").css("display", displayShiftUp);
             $("#speed").text(speed);
             $(".lightOff").css("color", "#FFF");
-
-            function toggleLight(state) {
-                let color = "#FFF";
-                if (state === false) color = "#424242";
-                $("#pin").css("color", color).css("border-color", color);
-                $("#mph").css("color", color);
-                for (let i = 1; i <= 18; i++) {
-                    $(".ii div:nth-child("+i+") > b").css("background-color", color);
-                }
-                for (let i = 1; i <= 9; i++) {
-                    $(".num_" + i).css("color", color);
-                }
-            }
         });
     }
 }); 

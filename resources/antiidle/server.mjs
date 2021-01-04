@@ -1,6 +1,6 @@
 import * as alt from "alt";
 
-alt.on('playerConnect', setupidle);
+alt.on('GlobalSystems:PlayerReady', setupidle);
 
 function setupidle(player){
 	function getcords(player, type){
