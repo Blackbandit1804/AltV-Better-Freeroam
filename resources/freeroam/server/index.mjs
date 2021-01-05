@@ -1,5 +1,11 @@
 import * as alt from 'alt';
-import chat from 'chat';
+import chat from './chat.mjs';
+import * as idle from './antiidle.mjs';
+
+let dateInterval,
+    date,
+    currentDate,
+    checkInterval;
 
 const spawns = [
     { x: -1093.5955810546875, y:-806.4923095703125, z:19.2879638671875},
@@ -765,8 +771,8 @@ function getRandomListEntry(list){
 
 alt.on('GlobalSystems:PlayerReady', function (player) {
 	alt.emitClient(player, "freeroam:Interiors");
+	player.vehicles = [];
 	player.model = spawnModels[getRandomListEntry(spawnModels)];
-    player.setMeta("vehicles", []);
     spawnplayer(player);
 	alt.emitClient(player, "freeroam:spawned");
 	alt.emitClient(player, "freeroam:setupblips");
@@ -776,7 +782,8 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
 			chat.send(player, "{80eb34}Press {34dfeb}T {80eb34}and type {34dfeb}/help {80eb34}to see all available commands..");
 			chat.send(player, "{34dfeb}F1 {80eb34}Weapon Menu {34dfeb}F2 {80eb34}Car Spawner {34dfeb}F3 {80eb34}Model Changer");
         }
-    }, 1000);
+	}, 1000);
+	idle.setupidle(player);
 });
 
 alt.on('playerDeath', (player) => {
@@ -791,25 +798,22 @@ alt.on('playerDeath', (player) => {
 });
 
 function spawnplayer(player ){
-	alt.emitClient(player, "freeroam:freeze");
+	alt.emitClient(player, "freeroam:freeze", true);
 	var spawn = spawns[getRandomListEntry(spawns)];
 	player.spawn(spawn.x, spawn.y, spawn.z, 1);
 	player.health = 200;
 	player.armour = 100;
 	alt.emitClient(player, "freeroam:playerstats");
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
-	alt.emitClient(player, "freeroam:unfreeze");
+	alt.setTimeout(() => {
+        alt.emitClient(player, "freeroam:freeze", false);
+    }, 1000);
 };
 
 alt.on('playerDisconnect', (player, reason) => {
     chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${alt.Player.all.length -= 1} players online)`);
-    player.getMeta("vehicles").forEach(vehicle => {
-        if(vehicle != null){
-            vehicle.destroy();
-        }
-    });
-    player.setMeta("vehicles", undefined);
-    alt.log(`${player.name} has leaved the server becauseof ${reason}`);
+	alt.log(`${player.name} has leaved the server becauseof ${reason}`);
+	playerDisconnect(player)
 });
 
 chat.registerCmd("help", function (player) {
@@ -823,3 +827,83 @@ chat.registerCmd("pos", function (player) {
     alt.log(`Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
     chat.send(player, `Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
 });
+
+function init(){
+    dateInterval = setInterval(()=> {
+    if(alt.Player.all.length !== 0){
+        currentDate = new Date();
+        date = currentDate;
+        alt.Player.all.forEach((player)=>{
+            setDate(player, date);
+        });
+    }
+    }, 60000);
+};
+
+const setDate = async(player, date) => {
+    player.setDateTime(date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), date.getSeconds());
+};
+
+function stopSync(){
+    if(dateInterval){
+        clearInterval(dateInterval);
+    }
+};
+
+const checksyncneeded = async() => {
+    if (dateInterval | alt.Player.all.length == 0) {
+        stopSync();
+    } else if (!dateInterval | alt.Player.all.length !== 0) {
+        startSync();
+    }
+};
+
+const playerGiveWeapon = async(player, hash) => {
+	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash(hash), 1500, false);
+};
+
+function startSync(){
+    if(dateInterval){
+        clearInterval(dateInterval);
+    }
+    init();
+};
+
+alt.on('resourceStart', () => {
+    checksyncneeded();
+});
+
+alt.on('resourceStop', () => {
+    alt.clearInterval(checkInterval);
+    stopSync();
+});
+
+const playerSpawnVehicle = async(player, model, position, rotation) => {
+    let limit = 1;
+    if (player.vehicles.length >= limit) {
+        player.vehicles[0].destroy();
+        player.vehicles.splice(0, 1);
+    }
+    let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
+    player.vehicles.push(vehicle);
+    alt.emitClient(player, 'setPedIntoVehicle', vehicle);
+};
+
+const playerDisconnect = async(player) => {
+    player.vehicles.forEach(vehicle => {
+        vehicle.destroy();
+	});
+	idle.disconnectidle();
+};
+
+const changemodel = async(player, model) => {
+	player.model = model;
+};
+
+alt.onClient('playerSpawnVehicle', (player, model, position, rotation) => playerSpawnVehicle(player, model, position, rotation));
+alt.onClient("playerGiveWeapon", (player, hash) => playerGiveWeapon(player, hash));
+alt.onClient("changemodel", (player, model) => changemodel(player, model));
+
+checkInterval = setInterval(()=> {
+    checksyncneeded();
+}, 60000);

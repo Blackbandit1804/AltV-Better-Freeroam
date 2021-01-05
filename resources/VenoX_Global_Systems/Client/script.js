@@ -1,10 +1,8 @@
 import alt from 'alt-client';
 import * as game from "natives";
 
-
 let localplayer = alt.Player.local;
 let kicked = false;
-let TermsBrowser;
 
 alt.log("VnXGlobalSystemsClient:Loaded");
 
@@ -12,7 +10,7 @@ alt.onServer("VnXGlobalSystemsClient:SetPedCanRagdoll", (bool) => {
 	try { game.setPedCanRagdoll(localplayer.scriptID, bool); }
 	catch{ }
 });
-alt.onServer("VnXGlobalSystemsClient:SetProofs", (bool) => {
+alt.onServer("VnXGlobalSystemsClient:SetProofs", () => {
 	try { game.setEntityProofs(localplayer.scriptID, true, false, false, false, false, false, false, false); }
 	catch{ }
 });
