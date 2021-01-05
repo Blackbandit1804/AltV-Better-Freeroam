@@ -1,7 +1,7 @@
 import * as alt from 'alt';
 import * as native from "natives";
 
-let player = alt.Player.local;
+const player = alt.Player.local;
 
 function spawned(){
     native.setPedDefaultComponentVariation(player);
@@ -28,12 +28,8 @@ alt.onServer("freeroam:switchInOutPlayer", (in_switch, instant_switch, switch_ty
     }
 });
 
-function freeze(){
-    native.freezeEntityPosition(alt.Player.local.scriptID, true);
-};
-
-function unfreeze(){
-    native.freezeEntityPosition(alt.Player.local.scriptID, false);
+function freeze(state){
+    native.freezeEntityPosition(alt.Player.local.scriptID, state);
 };
 
 function sendNotification(textColor, bgColor, message, blink){
@@ -81,6 +77,7 @@ function setupblips(){
     createblip(new alt.Vector3(301.002197265625, 2645.68359375, 207.786865234375), 590, true, "Los Santos");
     createblip(new alt.Vector3(5089.52978515625, -5045.09033203125, 51.01611328125), 89, true, "Cayo Perico");
     createblip(new alt.Vector3(3059.7890625, -4724.55810546875, 15.968505859375), 424, true, "Aircraft carrier");
+    new alt.PointBlip(6500, -6500, 20).alpha = 0;
 };
 
 function createblip(pos, id, customnamestate, label){
@@ -103,15 +100,6 @@ function radar() {
 };
 
 function playerstats(){
-    native.statSetInt(native.getHashKey("SP0_SPECIAL_ABILITY_UNLOCKED") , 100, true);
-    native.statSetInt(native.getHashKey("SP0_STAMINA") , 100, true);
-    native.statSetInt(native.getHashKey("SP0_STEALTH_ABILITY") , 100, true);
-    native.statSetInt(native.getHashKey("SP0_LUNG_CAPACITY") , 100, true);
-    native.statSetInt(native.getHashKey("SP0_FLYING_ABILITY") , 100, true);
-    native.statSetInt(native.getHashKey("SP0_SHOOTING_ABILITY") , 100, true);
-    native.statSetInt(native.getHashKey("SP0_STRENGTH") , 100, true);
-    native.statSetInt(native.getHashKey("SP0_WHEELIE_ABILITY") , 100, true);
-
     //set Infinite Oxygen
     let ped = native.playerPedId();
     native.setPedMaxTimeUnderwater(ped, 9999999980506448000.0);
@@ -119,6 +107,11 @@ function playerstats(){
 
 function resetstats() {
     native.resetPlayerStamina(player.scriptID);
+};
+
+function idlecam() {
+    native.invalidateIdleCam();
+    native._0x9E4CFFF989258472();
 };
 
 function Interiors(){
@@ -405,40 +398,43 @@ function Interiors(){
     };
 };
 
-alt.onServer("freeroam:freeze", freeze);
-alt.onServer("freeroam:unfreeze", unfreeze);
+function disconnect() {
+    alt.clearInterval(radarinterval);
+    alt.clearInterval(resetstatsinterval);
+    alt.clearInterval(idlecaminterval);
+};
+
+function playerblips (entity) {
+    if(entity instanceof alt.Player)
+    {
+      alt.setTimeout(() => {
+            if( !native.doesBlipExist( native.getBlipFromEntity( entity.scriptID ) ) ) {
+              let blip = native.addBlipForEntity( entity.scriptID );
+              native.setBlipDisplay( blip, 8 );
+              native.showHeadingIndicatorOnBlip( blip, true);
+              native.setBlipCategory( blip, 7 );
+              native.setBlipAsFriendly( blip, true );
+              native.setBlipAsShortRange( blip, true );
+              native.setBlipSprite( bliptse, 439 );
+              native.hideNumberOnBlip( blip );
+              native.setBlipScale( blip, 1.0 );
+              native.setBlipColour( blip, 0 );
+          }
+      }, 600);
+    }
+};
+
+
+let radarinterval = alt.setInterval(radar, 1);
+let resetstatsinterval = alt.setInterval(resetstats, 1);
+let idlecaminterval = alt.setInterval(idlecam, 25000);
+
+alt.onServer("freeroam:freeze", (state) => freeze(state));
 alt.onServer("freeroam:clearPedBloodDamage", clearPedBloodDamage);
 alt.onServer("freeroam:spawned", spawned);
 alt.onServer("freeroam:sendNotification", sendNotification);
 alt.onServer("freeroam:setupblips", setupblips);
 alt.onServer("freeroam:Interiors", Interiors);
 alt.onServer("freeroam:playerstats", playerstats);
-
-new alt.PointBlip(6500, -6500, 20).alpha = 0;
-alt.setInterval(radar, 1);
-alt.setInterval(resetstats, 1);
-
-alt.setInterval(() => {
-    native.invalidateIdleCam();
-    native._0x9E4CFFF989258472();
-}, 25000);
-
-alt.on( 'nativeEntityCreate', ( entity ) => {
-    if(entity instanceof alt.Player)
-      {
-        alt.setTimeout(() => {
-              if( !native.doesBlipExist( native.getBlipFromEntity( entity.scriptID ) ) ) {
-                let blip = native.addBlipForEntity( entity.scriptID );
-                native.setBlipDisplay( blip, 8 );
-                native.showHeadingIndicatorOnBlip( blip, true);
-                native.setBlipCategory( blip, 7 );
-                native.setBlipAsFriendly( blip, true );
-                native.setBlipAsShortRange( blip, true );
-                native.setBlipSprite( bliptse, 439 );
-                native.hideNumberOnBlip( blip );
-                native.setBlipScale( blip, 1.0 );
-                native.setBlipColour( blip, 0 );
-            }
-        }, 600);
-      }
-} ); 
+alt.on('nativeEntityCreate', (entity) => playerblips(entity)); 
+alt.on('disconnect', () => disconnect);

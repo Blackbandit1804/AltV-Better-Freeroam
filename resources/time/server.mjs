@@ -49,7 +49,7 @@ alt.on('resourceStart', () => {
 });
 
 alt.on('resourceStop', () => {
-    clearInterval(checkInterval);
+    alt.clearInterval(checkInterval);
     stopSync();
 });
 

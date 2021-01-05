@@ -791,24 +791,20 @@ alt.on('playerDeath', (player) => {
 });
 
 function spawnplayer(player ){
-	alt.emitClient(player, "freeroam:freeze");
+	alt.emitClient(player, "freeroam:freeze", true);
 	var spawn = spawns[getRandomListEntry(spawns)];
 	player.spawn(spawn.x, spawn.y, spawn.z, 1);
 	player.health = 200;
 	player.armour = 100;
 	alt.emitClient(player, "freeroam:playerstats");
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
-	alt.emitClient(player, "freeroam:unfreeze");
+	alt.setTimeout(() => {
+        alt.emitClient(player, "freeroam:freeze", false);
+    }, 1000);
 };
 
 alt.on('playerDisconnect', (player, reason) => {
     chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${alt.Player.all.length -= 1} players online)`);
-    player.getMeta("vehicles").forEach(vehicle => {
-        if(vehicle != null){
-            vehicle.destroy();
-        }
-    });
-    player.setMeta("vehicles", undefined);
     alt.log(`${player.name} has leaved the server becauseof ${reason}`);
 });
 

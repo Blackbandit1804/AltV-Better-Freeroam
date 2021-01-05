@@ -54,6 +54,6 @@ alt.on('connectionComplete', () => {
 });
 
 alt.on('disconnect', () => { 
-    clearInterval(checkInterval);
+    alt.clearInterval(checkInterval);
     view.destroy();
 });
