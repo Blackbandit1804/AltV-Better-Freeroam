@@ -773,7 +773,6 @@ alt.on('GlobalSystems:PlayerReady', function (player) {
 	alt.emitClient(player, "freeroam:Interiors");
 	player.vehicles = [];
 	player.model = spawnModels[getRandomListEntry(spawnModels)];
-    player.setMeta("vehicles", []);
     spawnplayer(player);
 	alt.emitClient(player, "freeroam:spawned");
 	alt.emitClient(player, "freeroam:setupblips");

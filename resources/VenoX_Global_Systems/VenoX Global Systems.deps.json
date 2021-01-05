@@ -1,0 +1,69 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "VenoX Global Systems/1.0.0": {
+        "dependencies": {
+          "AltV.Net": "1.48.2",
+          "AltV.Net.Async": "1.48.1"
+        },
+        "runtime": {
+          "VenoX Global Systems.dll": {}
+        }
+      },
+      "AltV.Net/1.48.2": {
+        "runtime": {
+          "lib/net5.0/AltV.Net.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "AltV.Net.Async/1.48.1": {
+        "dependencies": {
+          "AltV.Net": "1.48.2",
+          "System.Threading.Channels": "5.0.0"
+        },
+        "runtime": {
+          "lib/net5.0/AltV.Net.Async.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "System.Threading.Channels/5.0.0": {}
+    }
+  },
+  "libraries": {
+    "VenoX Global Systems/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AltV.Net/1.48.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tNLZkcEz1JiXwYM70+wDAKrch53rgNPx36QgpGluHcPIHa8rroiu5roweqWThEkozrI7AjOtrF1oUhG0n2LOrw==",
+      "path": "altv.net/1.48.2",
+      "hashPath": "altv.net.1.48.2.nupkg.sha512"
+    },
+    "AltV.Net.Async/1.48.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JGnIDylN+61lLrS3Nrf03LWlIDrKNr3e3qygy2FGzyI6YpYzuDyZt7+NbT9wDIFbzdwoSwn570bL08twf7rUoQ==",
+      "path": "altv.net.async/1.48.1",
+      "hashPath": "altv.net.async.1.48.1.nupkg.sha512"
+    },
+    "System.Threading.Channels/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RLBIxntLaG9pRmmuVDwY1kc8Bvp/FQzSxPU+19VekkScKkWtVP9r8bLhm28ama3usc816UBrmkg3vv3jUea/hw==",
+      "path": "system.threading.channels/5.0.0",
+      "hashPath": "system.threading.channels.5.0.0.nupkg.sha512"
+    }
+  }
+}

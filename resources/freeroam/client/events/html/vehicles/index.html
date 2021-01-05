@@ -4,8 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script src="scripts/vue.js" charset="UTF-8" type="application/javascript"></script>
-    <script src="scripts/vue-scrollto.js" charset="UTF-8" type="application/javascript"></script>
+    <script src="http://resource/client/events/html/shared/vue.js" charset="UTF-8" type="application/javascript"></script>
+    <script src="http://resource/client/events/html/shared/vue-scrollto.js" charset="UTF-8" type="application/javascript"></script>
 </head>
 <body>
     <div id="app" v-if="visible">
@@ -15,13 +15,13 @@
         </div>
         <div class="categories">
             <template v-for="(category, index) in categories">
-                <div class="category" v-scroll-to="{ el: '#scroll-'+index, container: '.vehicles' }">
+                <div class="category" v-scroll-to="{ el: '#scroll-'+index, container: '.items' }">
                     <img :src="'assets/categories/'+index+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+index+"></img>
                     {{ category }}
                 </div>
             </template>
         </div>
-        <div class="vehicles">
+        <div class="items">
             <div class="container">
                 <div class="search">
                     <input type="text" v-model="keyword" placeholder="Search..." spellcheck="false">
@@ -29,10 +29,10 @@
                 <template v-if="keyword.length > 0">
                     <div id="scroll-0">
                         <hr data-content="Results"></hr>
-                        <template v-for="vehicle in storage">
-                            <a class="vehicle" v-on:click="select(vehicle.model)">
-                                <img :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
-                                {{ vehicle.model }}
+                        <template v-for="item in storage">
+                            <a class="item" v-on:click="select(item.model)">
+                                <img :src="'assets/models/'+item.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+item.model+"></img>
+                                {{ item.model }}
                             </a>
                         </template>
                     </div>
@@ -42,11 +42,11 @@
                         <div v-bind:id="'scroll-'+index">
                             <template v-if="index > 0">
                                     <hr v-bind:data-content="category"></hr>
-                                    <template v-for="vehicle in models">
-                                        <template v-if="vehicle.category === index">
-                                            <a class="vehicle" v-on:click="select(vehicle.model)">
-                                                <img class="lazy" :src="'assets/models/'+vehicle.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+vehicle.model+"></img>
-                                                {{ vehicle.model }}
+                                    <template v-for="item in models">
+                                        <template v-if="item.category === index">
+                                            <a class="item" v-on:click="select(item.model)">
+                                                <img class="lazy" :src="'assets/models/'+item.model+'.webp'" loading="lazy" referrerpolicy="no-referrer" alt="+item.model+"></img>
+                                                {{ item.model }}
                                             </a>
                                         </template>
                                     </template>
@@ -61,6 +61,6 @@
 	<script src="scripts/alt.js" charset="UTF-8" type="application/javascript"></script>
 </body>
 <footer>
-    <link rel="stylesheet" href="styles/default.css" media="none" onload="if(media!='all')media='all'">
+    <link rel="stylesheet" href="http://resource/client/events/html/shared/default.css" media="none" onload="if(media!='all')media='all'">
 </footer>
 </html>

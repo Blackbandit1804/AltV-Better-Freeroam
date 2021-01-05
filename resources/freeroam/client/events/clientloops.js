@@ -4,7 +4,7 @@ import * as native from "natives";
 let player = alt.Player.local;
 
 const radar = async() => {
-    native.setRadarAsExteriorThisFrame();
+    await native.setRadarAsExteriorThisFrame();
     native.setRadarAsInteriorThisFrame(alt.hash("h4_fake_islandx"), 4700.0, -5145.0, 0, 0);
 };
 
@@ -35,21 +35,11 @@ let electric = [
     1392481335,// cyclone
     2765724541// raiden
     ],
-    state,
     view = new alt.WebView('http://resource/client/events/html/speedometer/speedometer.html');
-
-const vehiclestate = async(vehicle) => {
-    if (vehicle) {
-        state = true;
-    } else {
-        state = false;
-    };
-};
 
 const speedometer = async() => {
     let vehicle = alt.Player.local.vehicle;
-    vehiclestate(vehicle);
-    if (state == true) {
+    if (vehicle) {
         view.emit('status', true);
         view.emit('speedometer:data', {
             gear: parseInt(vehicle.gear),
@@ -57,7 +47,7 @@ const speedometer = async() => {
             speed: parseInt((native.getEntitySpeed(vehicle.scriptID) * 2.23693).toFixed(0)),
             isElectric: electric.includes(vehicle.model)
         });
-    } else if (state == false) {
+    } else {
         view.emit('status', false);
     };
 };
