@@ -1,7 +1,7 @@
 import * as native from "natives";
 import * as alt from 'alt';
 
-const sendNotification = async(textColor, bgColor, message, blink) => {
+function sendNotification(textColor, bgColor, message, blink) {
     native.setColourOfNextTextComponent(textColor);
     native.setNotificationBackgroundColor(bgColor);
     native.setNotificationTextEntry("STRING");
