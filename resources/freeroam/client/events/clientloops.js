@@ -17,6 +17,10 @@ function idlecam() {
     native._0x9E4CFFF989258472();
 };
 
+function getdate() {
+    alt.emitServer('getcurrentdate');
+};
+
 let electric = [
     2445973230,// neon
     1560980623,// airtug
@@ -52,7 +56,10 @@ function speedometer() {
     };
 };
 
+alt.on("connectionComplete", getdate);
+
 export let radarinterval = alt.setInterval(radar, 1);
 export let resetstatsinterval = alt.setInterval(resetstats, 1);
 export let idlecaminterval = alt.setInterval(idlecam, 25000);
 export let checkInterval = alt.setInterval(speedometer, 25);
+export let dateInterval = alt.setInterval(getdate, 120000);

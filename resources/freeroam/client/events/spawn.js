@@ -34,5 +34,5 @@ function freeze(state){
 
 alt.onServer("freeroam:freeze", (state) => freeze(state));
 alt.onServer("freeroam:clearPedBloodDamage", clearPedBloodDamage);
-alt.onServer("freeroam:spawned", spawned);
 alt.onServer("freeroam:switchInOutPlayer", (in_switch, instant_switch, switch_type) => switchInOutPlayer(in_switch, instant_switch, switch_type));
+alt.on("connectionComplete", spawned);

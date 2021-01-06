@@ -11,6 +11,13 @@ let dateInterval,
     ipls = constant.ipls,
     blip = constant.blip;
 
+currentDate = new Date();
+let year = currentDate.getFullYear();
+let month = currentDate.getMonth();
+let date = currentDate.getDate();
+let hour = currentDate.getHours();
+let minute = currentDate.getMinutes();
+
 function randomNumber(min, max) {  
     return Math.round(Math.random() * (max - min) + min); 
 }
@@ -20,19 +27,16 @@ function getRandomListEntry(list){
 }
 
 alt.on('GlobalSystems:PlayerReady', function (player) {
-	alt.emitClient(player, "freeroam:Interiors", (ipls));
 	player.vehicles = [];
 	player.model = spawnModels[getRandomListEntry(spawnModels)];
     spawnplayer(player);
-	alt.emitClient(player, "freeroam:spawned");
-	alt.emitClient(player, "freeroam:setupblips", (blip));
     setTimeout(function(){ 
         if(player !== undefined){
             chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${alt.Player.all.length} players online)`);
 			chat.send(player, "{80eb34}Press {34dfeb}T {80eb34}and type {34dfeb}/help {80eb34}to see all available commands..");
-			chat.send(player, "{34dfeb}F1 {80eb34}Weapon Menu {34dfeb}F2 {80eb34}Car Spawner {34dfeb}F3 {80eb34}Model Changer");
+			chat.send(player, "{34dfeb}F1 {80eb34}Weapon Menu | {34dfeb}F2 {80eb34}Car Spawner | {34dfeb}F3 {80eb34}Model Changer");
         }
-	}, 1000);
+	}, 100);
     idle.setupidle(player);
 });
 
@@ -63,7 +67,8 @@ function spawnplayer(player ){
 alt.on('playerDisconnect', (player, reason) => {
     chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${alt.Player.all.length -= 1} players online)`);
 	alt.log(`${player.name} has leaved the server becauseof ${reason}`);
-	playerDisconnect(player)
+    playerDisconnect(player)
+    idle.disconnectidle();
 });
 
 chat.registerCmd("help", function (player) {
@@ -80,17 +85,11 @@ chat.registerCmd("pos", function (player) {
 
 function init(){
     dateInterval = setInterval(()=> {
-    if(alt.Player.all.length !== 0){
         currentDate = new Date();
-        alt.Player.all.forEach((player) => {
-            setDate(player, currentDate);
-        });
-    }
+        date = currentDate.getDate();
+        hour = currentDate.getHours();
+        minute = currentDate.getMinutes();
     }, 60000);
-};
-
-function setDate(player, date) {
-    player.setDateTime(date.getDate(), date.getMonth(), date.getFullYear(), date.getHours(), date.getMinutes(), date.getSeconds());
 };
 
 function stopSync(){
@@ -119,12 +118,11 @@ function playerGiveWeapon(player, hash) {
 };
 
 function playerSpawnVehicle(player, model, position, rotation) {
-    let limit = 1;
-    if (player.vehicles.length >= limit) {
+    let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
+    if (player.vehicles.length >= 1) {
         player.vehicles[0].destroy();
         player.vehicles.splice(0, 1);
     }
-    let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
     alt.emitClient(player, 'setPedIntoVehicle', vehicle);
     player.vehicles.push(vehicle);
 };
@@ -133,16 +131,30 @@ function playerDisconnect(player) {
     player.vehicles.forEach(vehicle => {
         vehicle.destroy();
 	});
-	idle.disconnectidle();
 };
 
 function changemodel(player, model) {
 	player.model = model;
 };
 
+function pushblips(player) {
+    alt.emitClient(player, "freeroam:setupblips", (blip));
+};
+
+function pushipls(player) {
+    alt.emitClient(player, "freeroam:Interiors", (ipls));
+};
+
+function pushdate(player) {
+    player.setDateTime(date, month, year, hour, minute, 0);
+};
+
 alt.onClient('playerSpawnVehicle', (player, model, position, rotation) => playerSpawnVehicle(player, model, position, rotation));
 alt.onClient("playerGiveWeapon", (player, hash) => playerGiveWeapon(player, hash));
 alt.onClient("changemodel", (player, model) => changemodel(player, model));
+alt.onClient("getblips", pushblips);
+alt.onClient("getipls", pushipls);
+alt.onClient("getcurrentdate", pushdate);
 
 checkInterval = setInterval(()=> {
     checksyncneeded();

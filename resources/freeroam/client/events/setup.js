@@ -29,5 +29,11 @@ function playerstats() {
     native.setPedMaxTimeUnderwater(ped, 9999999980506448000.0);
 };
 
+function getdata() {
+    alt.emitServer('getblips');
+    alt.emitServer('getipls');
+};
+
 alt.onServer("freeroam:playerstats", playerstats);
 alt.onServer("freeroam:setupblips", setupblips);
+alt.on("connectionComplete", getdata);
