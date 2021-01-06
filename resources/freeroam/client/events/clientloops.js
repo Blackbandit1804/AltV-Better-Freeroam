@@ -3,16 +3,16 @@ import * as native from "natives";
 
 let player = alt.Player.local;
 
-const radar = async() => {
-    await native.setRadarAsExteriorThisFrame();
+function radar() {
+    native.setRadarAsExteriorThisFrame();
     native.setRadarAsInteriorThisFrame(alt.hash("h4_fake_islandx"), 4700.0, -5145.0, 0, 0);
 };
 
-const resetstats = async() => {
+function resetstats() {
     native.resetPlayerStamina(player.scriptID);
 };
 
-const idlecam = async() => {
+function idlecam() {
     native.invalidateIdleCam();
     native._0x9E4CFFF989258472();
 };
@@ -37,7 +37,7 @@ let electric = [
     ],
     view = new alt.WebView('http://resource/client/events/html/speedometer/speedometer.html');
 
-const speedometer = async() => {
+function speedometer() {
     let vehicle = alt.Player.local.vehicle;
     if (vehicle) {
         view.emit('status', true);

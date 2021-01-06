@@ -41,7 +41,7 @@ alt.on('keyup', (key) => {
     }
 });
 
-const setPedIntoVehicle = async(vehicle) => {
+function setPedIntoVehicle(vehicle) {
     let cleared = false;
     const interval = alt.setInterval(() => {
         const vehicleScriptId = vehicle.scriptID;

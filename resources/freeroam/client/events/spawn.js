@@ -3,7 +3,7 @@ import * as native from "natives";
 
 let player = alt.Player.local;
 
-const spawned = async() => {
+function spawned() {
     native.setPedDefaultComponentVariation(player);
     native.startAudioScene("FBI_HEIST_H5_MUTE_AMBIENCE_SCENE"); // Used to stop police sound in town
     native.cancelCurrentPoliceReport(); // Used to stop default police radio around/In police vehicle
@@ -16,11 +16,11 @@ const spawned = async() => {
     native.setAudioFlag("DisableFlightMusic", true);
 };
 
-const clearPedBloodDamage = async() => {
+function clearPedBloodDamage() {
     native.clearPedBloodDamage(alt.Player.local.scriptID);
 };
 
-const switchInOutPlayer = async(in_switch, instant_switch, switch_type) => {
+function switchInOutPlayer(in_switch, instant_switch, switch_type) {
     if(in_switch){
         native.switchInPlayer(alt.Player.local.scriptID);
     }else{
