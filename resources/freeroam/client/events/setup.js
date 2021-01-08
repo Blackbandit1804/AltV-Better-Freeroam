@@ -1,7 +1,7 @@
 import * as alt from 'alt';
 import * as native from "natives";
 
-function createblip(pos, id, customnamestate, label) {
+export function createblip(pos, id, customnamestate, label) {
     let blip = native.addBlipForCoord(pos.x, pos.y, pos.z);
     native.setBlipSprite(blip, id);
     native.setBlipAsShortRange(blip, true);
@@ -16,7 +16,6 @@ function createblip(pos, id, customnamestate, label) {
 };
 
 function setupblips(blip) {
-    native.pauseClock(true);
     blip.forEach(element => {
         createblip(new alt.Vector3(element["x"], element["y"], element["z"]), element["blip"], element["state"], element["string"]);
     });
@@ -30,6 +29,7 @@ function playerstats() {
 };
 
 function getdata() {
+    native.pauseClock(false);
     alt.emitServer('getblips');
     alt.emitServer('getipls');
 };
@@ -37,3 +37,7 @@ function getdata() {
 alt.onServer("freeroam:playerstats", playerstats);
 alt.onServer("freeroam:setupblips", setupblips);
 alt.on("connectionComplete", getdata);
+
+export default {
+    createblip
+}

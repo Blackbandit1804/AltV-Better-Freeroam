@@ -19,10 +19,6 @@ function Interiors(ipls){
 	native.doorControl(alt.hash("h4_prop_h4_gate_r_03a"), 4990.681, -5715.106, 20.78103, true, 0, 0, -10);
 	native.doorControl(alt.hash("h4_prop_h4_gate_l_03a"), 4987.587, -5718.635, 20.78103, true, 0, 0, 10);
 
-    //disable Waves
-    native.setDeepOceanScaler(0.0);
-    native.waterOverrideSetStrength(1.0);
-
     native.refreshInterior(274689)
 
     for(var i = 0; i <= 15; i++){

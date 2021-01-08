@@ -14,10 +14,7 @@ function spawned() {
     native.clearAmbientZoneState("AZ_DISTANT_SASQUATCH", 0, 0);
     native.setAudioFlag("LoadMPData", true);
     native.setAudioFlag("DisableFlightMusic", true);
-};
-
-function clearPedBloodDamage() {
-    native.clearPedBloodDamage(alt.Player.local.scriptID);
+    native.pauseClock(false);
 };
 
 function switchInOutPlayer(in_switch, instant_switch, switch_type) {
@@ -32,7 +29,14 @@ function freeze(state){
     native.freezeEntityPosition(alt.Player.local.scriptID, state);
 };
 
+function handledeath() {
+    switchInOutPlayer(false, 0, 2);
+    native.clearPedBloodDamage(alt.Player.local.scriptID);
+    alt.setTimeout(() => {
+        switchInOutPlayer(true);
+    }, 1000);
+};
+
 alt.onServer("freeroam:freeze", (state) => freeze(state));
-alt.onServer("freeroam:clearPedBloodDamage", clearPedBloodDamage);
-alt.onServer("freeroam:switchInOutPlayer", (in_switch, instant_switch, switch_type) => switchInOutPlayer(in_switch, instant_switch, switch_type));
+alt.onServer("freeroam:handledeath", handledeath);
 alt.on("connectionComplete", spawned);

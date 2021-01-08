@@ -1,7 +1,38 @@
 import * as alt from 'alt';
 import * as native from "natives";
+import * as blip from './spawn.js';
 
-let player = alt.Player.local;
+const player = alt.Player.local;
+var minutestotimeout = 10;
+var playerticks = minutestotimeout * 60;
+let positioninterval
+
+alt.setMsPerGameMinute(60000);
+
+function resetstate(){
+    playerticks = minutestotimeout * 60;
+};
+
+function positioncheck() {
+    var positionx1 = player.pos.x;
+    var positiony1 = player.pos.y;
+    positioninterval = alt.setTimeout(() => {
+        var positionx2 = player.pos.x;
+        var positiony2 = player.pos.y;
+        if(positionx1 != positionx2 | positiony1 != positiony2){
+            resetstate();
+        }
+    }, 300000);
+    alt.clearInterval(positioninterval);
+    kickmecheck();
+};
+
+function kickmecheck() {
+    playerticks -= 60;
+    if(playerticks<=0){
+        alt.emitServer("kickme", player);
+    }
+};
 
 function radar() {
     native.setRadarAsExteriorThisFrame();
@@ -19,6 +50,26 @@ function idlecam() {
 
 function getdate() {
     alt.emitServer('getcurrentdate');
+};
+
+let nearIsland = false;
+
+function checkisland() {
+	let distance = alt.Player.local.pos.distanceTo(new alt.Vector3(4840.571, -5174.425, 2.0));
+    if(distance < 3000) {
+        if(!nearIsland)
+        {
+            nearIsland = true;
+            native.setDeepOceanScaler(1.0);
+        }
+    } else {
+        if(nearIsland)
+        {
+            nearIsland = false;
+            //disable Waves
+            native.setDeepOceanScaler(0.0);
+        }
+    }
 };
 
 let electric = [
@@ -57,9 +108,27 @@ function speedometer() {
 };
 
 alt.on("connectionComplete", getdate);
+alt.on('keydown', () => { resetstate(); });
+alt.on('keyup', () => { resetstate(); });
 
-export let radarinterval = alt.setInterval(radar, 1);
-export let resetstatsinterval = alt.setInterval(resetstats, 1);
-export let idlecaminterval = alt.setInterval(idlecam, 25000);
-export let checkInterval = alt.setInterval(speedometer, 25);
-export let dateInterval = alt.setInterval(getdate, 120000);
+let radarinterval = alt.setInterval(radar, 1);
+let resetstatsinterval = alt.setInterval(resetstats, 1);
+let idlecaminterval = alt.setInterval(idlecam, 25000);
+let checkInterval = alt.setInterval(speedometer, 25);
+let idleinterval = alt.setInterval(positioncheck, 60000);
+let timeinterval = alt.setInterval(getdate, 1800000);
+let islandinterval = alt.setInterval(checkisland, 10000);
+
+function disconnect() {
+    alt.clearInterval(radarinterval);
+    alt.clearInterval(resetstatsinterval);
+    alt.clearInterval(idlecaminterval);
+    alt.clearInterval(checkInterval);
+    alt.clearInterval(idleinterval);
+    alt.clearInterval(positioninterval);
+    alt.clearInterval(timeinterval);
+    alt.clearInterval(islandinterval);
+};
+
+alt.on('connectionComplete', getdate);
+alt.on('disconnect', disconnect);
