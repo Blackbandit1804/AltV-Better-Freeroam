@@ -9,5 +9,6 @@ import * as vehiclemenu from './events/vehiclemenu.js';
 import * as weaponmenu from './events/weaponmenu.js'; 
 import * as modelmenu from './events/modelmenu.js'; 
 import * as chat from './chat/chat.js'; 
+import * as keyevents from './events/keyevents.js';
 
 alt.log("Loaded Client side");
