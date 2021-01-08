@@ -1,6 +1,5 @@
 import * as alt from 'alt';
 import chat from './chat.mjs';
-import * as idle from './antiidle.mjs';
 import * as constant from './constants.mjs';
 
 let	spawns = constant.spawns,

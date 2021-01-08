@@ -3,36 +3,8 @@ import * as native from "natives";
 import * as blip from './spawn.js';
 
 const player = alt.Player.local;
-var minutestotimeout = 10;
-var playerticks = minutestotimeout * 60;
-let positioninterval
 
 alt.setMsPerGameMinute(60000);
-
-function resetstate(){
-    playerticks = minutestotimeout * 60;
-};
-
-function positioncheck() {
-    var positionx1 = player.pos.x;
-    var positiony1 = player.pos.y;
-    positioninterval = alt.setTimeout(() => {
-        var positionx2 = player.pos.x;
-        var positiony2 = player.pos.y;
-        if(positionx1 != positionx2 | positiony1 != positiony2){
-            resetstate();
-        }
-    }, 300000);
-    alt.clearInterval(positioninterval);
-    kickmecheck();
-};
-
-function kickmecheck() {
-    playerticks -= 60;
-    if(playerticks<=0){
-        alt.emitServer("kickme", player);
-    }
-};
 
 function radar() {
     native.setRadarAsExteriorThisFrame();
@@ -107,15 +79,10 @@ function speedometer() {
     };
 };
 
-alt.on("connectionComplete", getdate);
-alt.on('keydown', () => { resetstate(); });
-alt.on('keyup', () => { resetstate(); });
-
 let radarinterval = alt.setInterval(radar, 1);
 let resetstatsinterval = alt.setInterval(resetstats, 1);
 let idlecaminterval = alt.setInterval(idlecam, 25000);
 let checkInterval = alt.setInterval(speedometer, 25);
-let idleinterval = alt.setInterval(positioncheck, 60000);
 let timeinterval = alt.setInterval(getdate, 1800000);
 let islandinterval = alt.setInterval(checkisland, 10000);
 
@@ -124,7 +91,6 @@ function disconnect() {
     alt.clearInterval(resetstatsinterval);
     alt.clearInterval(idlecaminterval);
     alt.clearInterval(checkInterval);
-    alt.clearInterval(idleinterval);
     alt.clearInterval(positioninterval);
     alt.clearInterval(timeinterval);
     alt.clearInterval(islandinterval);
