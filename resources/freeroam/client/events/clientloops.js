@@ -1,10 +1,8 @@
 import * as alt from 'alt';
 import * as native from "natives";
-import * as blip from './spawn.js';
+import * as functions from './functions.js';
 
 const player = alt.Player.local;
-
-alt.setMsPerGameMinute(60000);
 
 function radar() {
     native.setRadarAsExteriorThisFrame();
@@ -20,28 +18,15 @@ function idlecam() {
     native._0x9E4CFFF989258472();
 };
 
-function getdate() {
-    alt.emitServer('getcurrentdate');
-};
-
-let nearIsland = false;
-
-function checkisland() {
-	let distance = alt.Player.local.pos.distanceTo(new alt.Vector3(4840.571, -5174.425, 2.0));
-    if(distance < 3000) {
-        if(!nearIsland)
-        {
-            nearIsland = true;
-            native.setDeepOceanScaler(1.0);
-        }
+function checkislandstate() {
+    let check = functions.checkisland();
+    alt.log(check);
+    if(check == true) {
+        //disable Waves
+        native.setDeepOceanScaler(0.0);
     } else {
-        if(nearIsland)
-        {
-            nearIsland = false;
-            //disable Waves
-            native.setDeepOceanScaler(0.0);
-        }
-    }
+        native.setDeepOceanScaler(1.0);
+    };
 };
 
 let electric = [
@@ -83,18 +68,14 @@ let radarinterval = alt.setInterval(radar, 1);
 let resetstatsinterval = alt.setInterval(resetstats, 1);
 let idlecaminterval = alt.setInterval(idlecam, 25000);
 let checkInterval = alt.setInterval(speedometer, 25);
-let timeinterval = alt.setInterval(getdate, 1800000);
-let islandinterval = alt.setInterval(checkisland, 10000);
+let islandinterval = alt.setInterval(checkislandstate, 10000);
 
 function disconnect() {
     alt.clearInterval(radarinterval);
     alt.clearInterval(resetstatsinterval);
     alt.clearInterval(idlecaminterval);
     alt.clearInterval(checkInterval);
-    alt.clearInterval(positioninterval);
-    alt.clearInterval(timeinterval);
     alt.clearInterval(islandinterval);
 };
 
-alt.on('connectionComplete', getdate);
 alt.on('disconnect', disconnect);

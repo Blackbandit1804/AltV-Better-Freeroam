@@ -1,13 +1,7 @@
 import * as alt from 'alt';
 import * as native from "natives";
+import { loadipl } from './functions.js';
 
-function loadipl(element) {
-    if (element["status"] == 0){
-        native.requestIpl(element["ipl"]);
-    } else {
-        native.removeIpl(element["ipl"]);
-    }
-}
 
 function Interiors(ipls){
     ipls.forEach(element => {
