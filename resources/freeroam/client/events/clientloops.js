@@ -20,7 +20,6 @@ function idlecam() {
 
 function checkislandstate() {
     let check = functions.checkisland();
-    alt.log(check);
     if(check == true) {
         //disable Waves
         native.setDeepOceanScaler(0.0);

@@ -17,6 +17,8 @@ function setambientzone() {
     native.setAudioFlag("DisableFlightMusic", true);
     native.pauseClock(false);
     alt.setMsPerGameMinute(60000);
+    native.setPlayerTargetingMode(2);
+    native.setWeatherTypePersist("EXTRASUNNY");
 };
 
 function setupblips(blip) {
@@ -30,6 +32,7 @@ function playerstats() {
     //set Infinite Oxygen
     let ped = native.playerPedId();
     native.setPedMaxTimeUnderwater(ped, 9999999980506448000.0);
+    native.setRunSprintMultiplierForPlayer(player, 1.05);
 };
 
 function getdata() {

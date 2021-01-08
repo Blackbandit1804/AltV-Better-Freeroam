@@ -24,7 +24,8 @@ function spawnplayer(player) {
     let spawns = functions.shuffle(constant.spawns);
 	alt.emitClient(player, "freeroam:freeze", true);
 	let spawn = spawns[functions.getRandomListEntry(spawns)];
-	player.spawn(spawn.x, spawn.y, spawn.z, 1);
+    player.spawn(spawn.x, spawn.y, spawn.z, 1);
+    alt.emitClient(player, "freeroam:playerstats");
 	player.health = 200;
 	player.armour = 100;
 	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);

@@ -12,3 +12,12 @@ chat.registerCmd("pos", function (player) {
     alt.log(`Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
     chat.send(player, `Position: ${player.pos.x}, ${player.pos.y}, ${player.pos.z}`);
 });
+
+chat.registerCmd("devpos", function (player) {
+    alt.log(`{ x:${player.pos.x}, y:${player.pos.y}, z:${player.pos.z} }`);
+    chat.send(player, `{ x:${player.pos.x}, y:${player.pos.y}, z:${player.pos.z} }`);
+});
+
+chat.registerCmd("kill", function (player) {
+    player.health = 0;
+});

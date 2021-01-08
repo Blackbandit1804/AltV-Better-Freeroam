@@ -7,7 +7,6 @@ export function shuffle(array) {
         array[counter] = array[index];
         array[index] = temp;
     }
-    
     return array;
 };
 

@@ -2,7 +2,7 @@
 
 # Features
 - optimized code
-- small size (Client: less than 5MB)
+- small size (Client: less than 4.9MB)
 - Weapon Menu
 - Visual Model Changer
 - modded Visual Car Spawner
