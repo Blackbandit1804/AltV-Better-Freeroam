@@ -2,6 +2,7 @@ import * as alt from "alt";
 
 let loaded = !1,
     opened = !1;
+const player = alt.Player.local;
 const view = new alt.WebView("http://resource/client/events/html/models/index.html");
 loaded = true;
 
@@ -15,7 +16,8 @@ view.on('menu', (toggle) => {
 
 view.on('select', (model) => {
 	alt.emitServer("changemodel", model)
-	menu(false);
+    menu(false);
+    alt.emit('drawNotification', 'CHAR_BLANK_ENTRY', 'Notification', player.name, 'Your new Playermodel: ' + model);
 });
 
 alt.on('keyup', (key) => {

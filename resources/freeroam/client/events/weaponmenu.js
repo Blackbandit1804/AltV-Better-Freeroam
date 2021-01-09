@@ -3,6 +3,7 @@ import * as alt from 'alt';
 let loaded = !1,
     opened = !1;
 
+const player = alt.Player.local;
 const view = new alt.WebView('http://resource/client/events/html/weapons/index.html');
 loaded = true;
 
@@ -27,6 +28,7 @@ view.on('menu', (toggle) => {
 
 view.on('select', (weapon) => {
     alt.emitServer("playerrequestWeapon", weapon, 1500, false);
+    alt.emit('drawNotification', 'CHAR_AMMUNATION', 'Notification', player.name, 'Your new Weapon: ' + weapon);
 });
 
 alt.on('keyup', (key) => {

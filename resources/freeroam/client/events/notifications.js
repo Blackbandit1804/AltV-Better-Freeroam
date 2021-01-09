@@ -1,12 +1,21 @@
 import * as native from "natives";
 import * as alt from 'alt';
 
-function sendNotification(textColor, bgColor, message, blink) {
-    native.setColourOfNextTextComponent(textColor);
-    native.setNotificationBackgroundColor(bgColor);
-    native.setNotificationTextEntry("STRING");
+export function drawNotification(imageName, headerMsg, detailsMsg, message) {
+    native.beginTextCommandThefeedPost('STRING');
     native.addTextComponentSubstringPlayerName(message);
-    native.drawNotification(blink, false);
-};
+    native.endTextCommandThefeedPostMessagetextTu(
+        imageName.toUpperCase(),
+        imageName.toUpperCase(),
+        false,
+        4,
+        headerMsg,
+        detailsMsg,
+        1.5,
+        ''
+    );
+    native.endTextCommandThefeedPostTicker(false, false);
+}
 
-alt.onServer("freeroam:sendNotification", sendNotification);
+alt.onServer('drawNotification', drawNotification);
+alt.on('drawNotification', drawNotification);

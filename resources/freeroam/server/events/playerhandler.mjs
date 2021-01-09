@@ -9,15 +9,16 @@ function playerready(player) {
 	player.model = spawnModels[functions.getRandomListEntry(spawnModels)];
     spawnplayer(player);
     if(player !== undefined){
-        chat.broadcast(`{1cacd4}${player.name} {ffffff}has {00ff00}joined {ffffff}the Server..  (${alt.Player.all.length} players online)`);
-		chat.send(player, "{80eb34}Press {34dfeb}T {80eb34}and type {34dfeb}/help {80eb34}to see all available commands..");
-		chat.send(player, "{34dfeb}F1 {80eb34}Weapon Menu | {34dfeb}F2 {80eb34}Car Spawner | {34dfeb}F3 {80eb34}Model Changer");
+        chat.broadcast(`${player.name} has joined the Server..  (${alt.Player.all.length} players online)`);
+		chat.send(player, "F1 Weapon Menu | F2 Car Spawner | F3 Model Changer");
     };
+    alt.emitClient(player, 'showHelpText', 'F1=Weapon Menu | F2=Car Spawner | F3=Model Changer', 10000);
 };
 
 function playerdeath(player) {
     alt.emit('sethandledeath', player);
-	spawnplayer(player);
+    spawnplayer(player);
+    chat.broadcast(`${player.name} has Died.`);
 };
 
 function spawnplayer(player) {
@@ -65,11 +66,13 @@ function setplayerfreeze(player, state) {
 };
 
 function changemodel(player, model) {
-	player.model = model;
+    player.model = model;
+    player.health = 200;
+	player.armour = 100;
 };
 
 function playerdisconnect(player, reason) {
-    chat.broadcast(`{1cacd4}${player.name} {ffffff}has {ff0000}left {ffffff}the Server.. (${alt.Player.all.length -= 1} players online)`);
+    chat.broadcast(`${player.name} has left the Server.. (${alt.Player.all.length -= 1} players online)`);
     alt.log(`${player.name} has leaved the server becauseof ${reason}`);
     player.vehicles.forEach(vehicle => {
         vehicle.destroy();

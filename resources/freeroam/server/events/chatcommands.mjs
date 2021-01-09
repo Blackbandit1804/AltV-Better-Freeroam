@@ -2,10 +2,13 @@ import * as alt from 'alt';
 import chat from '../chat.mjs';
 
 chat.registerCmd("help", function (player) {
-    chat.send(player, "{ff0000}========== {eb4034}HELP {ff0000} ==========");
-    chat.send(player, "{ff0000}= {34abeb}/pos {40eb34} {ffffff} Get your Position in the game world");
-	chat.send(player, "{80eb34}= {34dfeb}F1={80eb34}Weapon Menu {34dfeb}F2={80eb34}Car Spawner {34dfeb}F3={80eb34}Model Changer");
-    chat.send(player, "{ff0000} ========================");
+    alt.log(`F1=Weapon Menu | F2=Car Spawner | F3=Model Changer`);
+    chat.send(player, `F1=Weapon Menu | F2=Car Spawner | F3=Model Changer`);
+});
+
+chat.registerCmd("players", function (player) {
+    alt.log(`(${alt.Player.all.length}) players online`);
+    chat.send(player, `(${alt.Player.all.length}) players online`);
 });
 
 chat.registerCmd("pos", function (player) {
