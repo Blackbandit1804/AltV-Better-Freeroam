@@ -1,7 +1,8 @@
 import * as alt from 'alt';
 import * as native from "natives";
+import * as functions from './functions.js';
 
-let player = alt.Player.local;
+const player = alt.Player.local;
 
 function radar() {
     native.setRadarAsExteriorThisFrame();
@@ -17,11 +18,17 @@ function idlecam() {
     native._0x9E4CFFF989258472();
 };
 
-function getdate() {
-    alt.emitServer('getcurrentdate');
+function checkislandstate() {
+    let check = functions.checkisland();
+    if(check == true) {
+        //disable Waves
+        native.setDeepOceanScaler(0.0);
+    } else {
+        native.setDeepOceanScaler(1.0);
+    };
 };
 
-let electric = [
+const electric = [
     2445973230,// neon
     1560980623,// airtug
     1147287684,// caddy
@@ -43,7 +50,7 @@ let electric = [
 
 function speedometer() {
     let vehicle = alt.Player.local.vehicle;
-    if (vehicle) {
+    if (vehicle != null) {
         view.emit('status', true);
         view.emit('speedometer:data', {
             gear: parseInt(vehicle.gear),
@@ -56,10 +63,18 @@ function speedometer() {
     };
 };
 
-alt.on("connectionComplete", getdate);
+let radarinterval = alt.setInterval(radar, 1);
+let resetstatsinterval = alt.setInterval(resetstats, 1);
+let idlecaminterval = alt.setInterval(idlecam, 25000);
+let checkInterval = alt.setInterval(speedometer, 25);
+let islandinterval = alt.setInterval(checkislandstate, 10000);
 
-export let radarinterval = alt.setInterval(radar, 1);
-export let resetstatsinterval = alt.setInterval(resetstats, 1);
-export let idlecaminterval = alt.setInterval(idlecam, 25000);
-export let checkInterval = alt.setInterval(speedometer, 25);
-export let dateInterval = alt.setInterval(getdate, 120000);
+function disconnect() {
+    alt.clearInterval(radarinterval);
+    alt.clearInterval(resetstatsinterval);
+    alt.clearInterval(idlecaminterval);
+    alt.clearInterval(checkInterval);
+    alt.clearInterval(islandinterval);
+};
+
+alt.on('disconnect', disconnect);

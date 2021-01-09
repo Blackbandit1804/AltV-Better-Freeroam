@@ -1,9 +1,10 @@
 import * as alt from 'alt';
 import * as native from 'natives';
 
+const player = alt.Player.local;
 let loaded = !1,
-    opened = !1;
-let player = alt.Player.local;
+    opened = !1,
+    vehicles = [];
 
 const view = new alt.WebView('http://resource/client/events/html/vehicles/index.html');
 loaded = true;
@@ -28,6 +29,10 @@ view.on('menu', (toggle) => {
 });
 
 view.on('select', (model) => {
+    if (vehicles.length >= 1) {
+        vehicles[0].destroy();
+        vehicles.splice(0, 1);
+    }
     alt.emitServer('playerSpawnVehicle', model, player.pos, player.rot);
 	menu(false);
 });
