@@ -65,5 +65,9 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+
+    - name: Peroform Html Check
+      uses: Cyb3r-Jak3/html5validator-action@v0.4.4
       with:
-        queries: +security-and-quality
+        root: resources/freeroam/client/events/html
+        css: true
