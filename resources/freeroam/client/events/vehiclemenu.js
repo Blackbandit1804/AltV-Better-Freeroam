@@ -34,7 +34,8 @@ view.on('select', (model) => {
         vehicles.splice(0, 1);
     }
     alt.emitServer('playerSpawnVehicle', model, player.pos, player.rot);
-	menu(false);
+    menu(false);
+    alt.emit('drawNotification', 'CHAR_PEGASUS_DELIVERY', 'Notification', player.name, 'Your new Vehicle: ' + model);
 });
 
 alt.on('keyup', (key) => {

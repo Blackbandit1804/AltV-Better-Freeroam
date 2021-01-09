@@ -35,46 +35,6 @@ body {
 	opacity: .9
 }
 
-.chatbox {
-	position: absolute;
-	top: 30px;
-	left: 5px;
-	width: 450px;
-	height: 250px;
-	padding: 15px;
-	opacity: 1;
-	transition: all .5s
-}
-
-.chatbox.active {
-	opacity: 1
-}
-
-.chatbox p {
-	color: #fff;
-	line-height: 20px;
-	margin: 0;
-	text-shadow: 1px 1px 0 rgba(0,0,0,1),1px 1px 3px rgba(0,0,0,0.8);
-	font-size: 1em;
-	color: rgba(255,255,255,1);
-	width: 100%;
-	word-break: break-all;
-	display: inline-block
-}
-
-.chatbox p b {
-	font-weight: 500
-}
-
-.msglist {
-	overflow-y: hidden;
-	height: 100%
-}
-
-.overflowed {
-	mask-image: linear-gradient(top,rgba(0,0,0,0) 0%,rgba(0,0,0,1) 20%,rgba(0,0,0,1) 100%)
-}
-
 .msginput {
 	display: none;
 	width: 100%

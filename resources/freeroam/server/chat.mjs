@@ -26,25 +26,14 @@ alt.onClient('chatmessage', (player, msg) => {
         }
     } else {
         msg = msg.trim();
-
         if (msg.length <= 0) return;
-
         alt.log('[==> CHAT] ' + player.name + ': ' + msg);
-
-        alt.emitClient(
-            null,
-            'chatmessage',
-            player.name,
-            msg
-                .replace(/</g, '&lt;')
-                .replace(/'/g, '&#39')
-                .replace(/"/g, '&#34')
-        );
+        alt.emitClient(null, 'drawNotification', 'CHAR_CHAT_CALL', 'Notification', player.name, msg);
     }
-});
+}); 
 
 export function send(player, msg) {
-    alt.emitClient(player, 'chatmessage', null, msg);
+    alt.emitClient(player, 'drawNotification', 'CHAR_SOCIAL_CLUB', 'Notification', '', msg);
 }
 
 export function broadcast(msg) {
