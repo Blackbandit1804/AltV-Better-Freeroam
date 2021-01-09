@@ -1,9 +1,9 @@
 import * as alt from 'alt';
 import * as constant from '../constants.mjs';
 
-let ipls,
-    blip,
-    currentDate,
+const ipls = constant.ipls,
+    blip = constant.blip;
+let currentDate,
     year,
     month,
     date,
@@ -12,8 +12,6 @@ let ipls,
     second;
 
 function resourcestart() {
-    ipls = constant.ipls;
-    blip = constant.blip;
     currentDate = new Date();
     year = currentDate.getFullYear();
     month = currentDate.getMonth();

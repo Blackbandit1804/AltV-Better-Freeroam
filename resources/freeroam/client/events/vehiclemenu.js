@@ -1,9 +1,9 @@
 import * as alt from 'alt';
 import * as native from 'natives';
 
+const player = alt.Player.local;
 let loaded = !1,
     opened = !1,
-    player = alt.Player.local,
     vehicles = [];
 
 const view = new alt.WebView('http://resource/client/events/html/vehicles/index.html');

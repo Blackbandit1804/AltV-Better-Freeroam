@@ -26,7 +26,7 @@ view.on('menu', (toggle) => {
 });
 
 view.on('select', (weapon) => {
-    alt.emitServer("playerGiveWeapon", weapon)
+    alt.emitServer("playerrequestWeapon", weapon, 1500, false);
 });
 
 alt.on('keyup', (key) => {

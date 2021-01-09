@@ -28,7 +28,7 @@ function checkislandstate() {
     };
 };
 
-let electric = [
+const electric = [
     2445973230,// neon
     1560980623,// airtug
     1147287684,// caddy
@@ -50,7 +50,7 @@ let electric = [
 
 function speedometer() {
     let vehicle = alt.Player.local.vehicle;
-    if (vehicle) {
+    if (vehicle != null) {
         view.emit('status', true);
         view.emit('speedometer:data', {
             gear: parseInt(vehicle.gear),

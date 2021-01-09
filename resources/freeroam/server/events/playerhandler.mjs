@@ -16,26 +16,26 @@ function playerready(player) {
 };
 
 function playerdeath(player) {
-    alt.emitClient(player, "freeroam:handledeath");
+    alt.emit('sethandledeath', player);
 	spawnplayer(player);
 };
 
 function spawnplayer(player) {
     let spawns = functions.shuffle(constant.spawns);
-	alt.emitClient(player, "freeroam:freeze", true);
+    alt.emit('setplayerfreezestate', player, true);
 	let spawn = spawns[functions.getRandomListEntry(spawns)];
     player.spawn(spawn.x, spawn.y, spawn.z, 1);
-    alt.emitClient(player, "freeroam:playerstats");
+    alt.emit('setplayerstats', player);
 	player.health = 200;
 	player.armour = 100;
-	alt.emit('GlobalSystems:GiveWeapon', player, alt.hash("gadget_parachute"), 1, false);
+	alt.emit('playerrequestWeapon', player, 'gadget_parachute', 1, false);
 	alt.setTimeout(() => {
-        alt.emitClient(player, "freeroam:freeze", false);
+        alt.emit('setplayerfreezestate', player, false);
     }, 1000);
 };
 
-function playerGiveWeapon(player, hash) {
-    player.giveWeapon(alt.hash(hash), 1500, false);
+function playerGiveWeapon(player, name, ammo, equiped) {
+    player.giveWeapon(alt.hash(name), ammo, equiped);
 };
 
 function playerSpawnVehicle(player, model, position, rotation) {
@@ -44,8 +44,24 @@ function playerSpawnVehicle(player, model, position, rotation) {
         player.vehicles.splice(0, 1);
     }
     let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
-    alt.emitClient(player, 'setPedIntoVehicle', vehicle);
+    alt.emit('setplayerinvehicle', player, vehicle);
     player.vehicles.push(vehicle);
+};
+
+function setplayerinvehicle(player, vehicle) {
+    alt.emitClient(player, 'setPedIntoVehicle', vehicle);
+};
+
+function sethandledeath(player) {
+    alt.emitClient(player, "freeroam:handledeath");
+};
+
+function setplayerstats(player) {
+    alt.emitClient(player, "freeroam:playerstats");
+};
+
+function setplayerfreeze(player, state) {
+    alt.emitClient(player, "freeroam:freeze", state);
 };
 
 function changemodel(player, model) {
@@ -63,6 +79,11 @@ function playerdisconnect(player, reason) {
 alt.on('playerConnect', playerready);
 alt.on('playerDeath', playerdeath);
 alt.on('playerDisconnect', playerdisconnect);
+alt.on('setplayerfreezestate', (player, state) => setplayerfreeze(player, state));
+alt.on('setplayerstats', (player) => setplayerstats(player));
+alt.on('sethandledeath', (player) => sethandledeath(player));
+alt.on('setplayerinvehicle', (player, vehicle) => setplayerinvehicle(player, vehicle));
+alt.on("playerrequestWeapon", (player, name, ammo, equiped) => playerGiveWeapon(player, name, ammo, equiped));
 alt.onClient('playerSpawnVehicle', (player, model, position, rotation) => playerSpawnVehicle(player, model, position, rotation));
-alt.onClient("playerGiveWeapon", (player, hash) => playerGiveWeapon(player, hash));
+alt.onClient("playerrequestWeapon", (player, name, ammo, equiped) => alt.emit('playerrequestWeapon', player, name, ammo, equiped));
 alt.onClient("changemodel", (player, model) => changemodel(player, model));
