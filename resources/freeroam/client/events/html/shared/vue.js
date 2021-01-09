@@ -1087,7 +1087,7 @@
         target.splice(key, 1, val);
         return val
       }
-      if (key in target && !(key in Object.prototype)) {
+      if (target.hasOwnProperty(key) && key in target && !(key in Object.prototype)) {
         target[key] = val;
         return val
       }
@@ -1099,7 +1099,7 @@
         );
         return val
       }
-      if (!ob) {
+      if (target.hasOwnProperty(key) && !ob) {
         target[key] = val;
         return val
       }
