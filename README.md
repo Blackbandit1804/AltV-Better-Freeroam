@@ -1,4 +1,4 @@
-# AltV-Better-Freeroam
+# AltV-Better-Freeroam ![CodeQL](https://github.com/Nickwasused/AltV-Better-Freeroam/workflows/CodeQL/badge.svg)
 
 # Features
 - optimized code
