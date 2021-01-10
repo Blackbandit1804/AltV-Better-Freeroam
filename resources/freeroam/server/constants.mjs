@@ -256,6 +256,18 @@ export const ipls = [
 	{ status: 0, ipl: 'h4_mph4_airstrip_interior_0_airstrip_hanger' }
 ];
 
+export const doors = [
+	{ name: "h4_prop_h4_gate_r_03a", posx: 4981.012, posy: -5712.747, posz: 20.78103, lockstate: true, rotx: 0, roty: 0, rotz: -10 },
+	{ name: "h4_prop_h4_gate_l_03a", posx: 4984.134, posy: -5709.249, posz: 20.78103, lockstate: true, rotx: 0, roty: 0, rotz: 10 },
+	{ name: "h4_prop_h4_gate_r_03a", posx: 4990.681, posy: -5715.106, posz: 20.78103, lockstate: true, rotx: 0, roty: 0, rotz: -10 },
+	{ name: "h4_prop_h4_gate_l_03a", posx: 4987.587, posy: -5718.635, posz: 20.78103, lockstate: true, rotx: 0, roty: 0, rotz: 10 }
+];
+
+export const props = [
+	{ posx: 1100.0, posy: 220.0, posz: -50.0, pin: ["0x30240D11", "0xA3C89BB2"] },
+	{ posx: 976.6364, posy: 70.29476, posz: 115.1641, pin: ["teste1", "teste2", "teste3", "teste4", "teste11", "teste17", "teste18", "teste19", "teste20", "teste21", "teste29", "teste32", "teste33", "teste34"] }
+];
+
 export const spawns = [
     { x: -1093.5955810546875, y:-806.4923095703125, z:19.2879638671875},
     { x: 292.6417541503906, y:-583.7933959960938, z:43.180908203125},
@@ -1527,5 +1539,7 @@ export default {
     ipls,
     spawns,
     spawnModels,
-    blip
+	blip,
+	doors,
+	props
 };
