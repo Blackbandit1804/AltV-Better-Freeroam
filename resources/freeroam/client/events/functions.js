@@ -32,8 +32,24 @@ export function loadipl(element) {
     }
 };
 
+export function doorcontrol(element) {
+    native.doorControl(alt.hash(element["name"]), element["posx"], element["posy"], element["posz"], element["lockstate"], element["rotx"], element["roty"], element["rotz"]);
+};
+
+export function proploader(element) {
+    let interiorID = native.getInteriorAtCoords(element["posx"], element["posy"], element["posz"]);
+    if (native.isValidInterior(interiorID)) {
+        element["pin"].forEach(element => {
+            native.activateInteriorEntitySet(interiorID, element);
+        });
+        native.refreshInterior(interiorID);
+    }
+};
+
 export default {
     createblip,
     checkisland,
-    loadipl
+    loadipl,
+    doorcontrol,
+    proploader
 };

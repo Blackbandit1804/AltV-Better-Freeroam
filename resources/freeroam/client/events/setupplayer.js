@@ -1,7 +1,6 @@
 import * as alt from 'alt';
 import * as native from 'natives';
 import { createblip } from './functions.js';
-import * as LoadingPrompt from './loadingspinner.js';
 
 const player = alt.Player.local;
 
@@ -23,12 +22,10 @@ function setambientzone() {
 };
 
 function setupblips(blip) {
-    LoadingPrompt.Show("Creating Blips ...");
     blip.forEach(element => {
         createblip(new alt.Vector3(element["x"], element["y"], element["z"]), element["blip"], element["state"], element["string"]);
     });
     new alt.PointBlip(6500, -6500, 20).alpha = 0;
-    LoadingPrompt.Hide();
 };
 
 function playerstats() {
@@ -43,6 +40,8 @@ function getdata() {
     alt.emitServer('getblips');
     alt.emitServer('getipls');
     alt.emitServer('getcurrentdate');
+    alt.emitServer('getdoors');
+    alt.emitServer('getprops');
 };
 
 alt.onServer("freeroam:playerstats", playerstats);
