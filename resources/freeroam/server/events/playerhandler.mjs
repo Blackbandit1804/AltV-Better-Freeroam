@@ -44,10 +44,12 @@ function playerSpawnVehicle(player, model, position, rotation) {
         player.vehicles[0].destroy();
         player.vehicles.splice(0, 1);
     }
-    let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
     let licenseplates = functions.shuffle(constant.licenseplate);
     let licenseplate = licenseplates[functions.getRandomListEntry(licenseplates)];
+    let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
     vehicle.numberPlateText = licenseplate;
+    vehicle.primaryColor = functions.randomNumber(0, 159);
+    vehicle.pearlColor = functions.randomNumber(0, 159);
     alt.emit('setplayerinvehicle', player, vehicle);
     player.vehicles.push(vehicle);
 };
