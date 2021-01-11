@@ -1535,11 +1535,19 @@ export const modelmenu = [
 	{ category: 10, model: 's_m_y_xmech_02_mp' }
 ];
 
+export const licenseplate = [
+	"HXUSP",
+	"TJ0MC",
+	"KBUTR",
+	"A3DUL"
+];
+
 export default {
     ipls,
     spawns,
     spawnModels,
 	blip,
 	doors,
-	props
+	props,
+	licenseplate
 };
