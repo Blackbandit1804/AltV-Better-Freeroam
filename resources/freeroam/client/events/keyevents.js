@@ -13,3 +13,5 @@ alt.on('keyup', (key) => {
         pointing.stop();
     }
 });
+
+alt.log('Loaded: ./events/keyevents.js');

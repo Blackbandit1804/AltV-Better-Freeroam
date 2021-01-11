@@ -5,23 +5,8 @@ const ipls = constant.ipls,
     blip = constant.blip,
     doors = constant.doors,
     props = constant.props;
-let currentDate,
-    year,
-    month,
-    date,
-    hour,
-    minute,
-    second;
 
-function resourcestart() {
-    currentDate = new Date();
-    year = currentDate.getFullYear();
-    month = currentDate.getMonth();
-    date = currentDate.getDate();
-    hour = currentDate.getHours();
-    minute = currentDate.getMinutes();
-    second = currentDate.getSeconds();
-};
+const timeoffset = 1;
 
 function pushblips(player) {
     alt.emitClient(player, "freeroam:setupblips", (blip));
@@ -40,13 +25,8 @@ function pushprops(player) {
 };
 
 function pushdate(player) {
-    currentDate = new Date();
-    date = currentDate.getDate();
-    hour = currentDate.getHours();
-    minute = currentDate.getMinutes();
-    second = currentDate.getSeconds();
-    //alt.log(date, month, year, hour, minute, second);
-    player.setDateTime(date, month, year, hour, minute, second);
+    let currentDate = new Date();
+    player.setDateTime(currentDate.getUTCDate(), currentDate.getUTCMonth(), currentDate.getUTCFullYear(), (currentDate.getUTCHours() + timeoffset), currentDate.getUTCMinutes(), currentDate.getUTCSeconds());
 };
 
 alt.onClient("getblips", pushblips);
@@ -54,4 +34,3 @@ alt.onClient("getipls", pushipls);
 alt.onClient("getdoors", pushdoors);
 alt.onClient("getcurrentdate", pushdate);
 alt.onClient("getprops", pushprops);
-alt.on('resourceStart', resourcestart);

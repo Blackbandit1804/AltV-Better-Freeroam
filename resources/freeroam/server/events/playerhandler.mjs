@@ -39,7 +39,7 @@ function playerGiveWeapon(player, name, ammo, equiped) {
     player.giveWeapon(alt.hash(name), ammo, equiped);
 };
 
-function playerSpawnVehicle(player, model, position, rotation) {
+function playerSpawnVehicle(player, model, position, rotation, colorstate) {
     if (player.vehicles.length >= 1) {
         player.vehicles[0].destroy();
         player.vehicles.splice(0, 1);
@@ -48,8 +48,10 @@ function playerSpawnVehicle(player, model, position, rotation) {
     let licenseplate = licenseplates[functions.getRandomListEntry(licenseplates)];
     let vehicle = new alt.Vehicle(model, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
     vehicle.numberPlateText = licenseplate;
-    vehicle.primaryColor = functions.randomNumber(0, 159);
-    vehicle.pearlColor = functions.randomNumber(0, 159);
+    if (colorstate == true) {
+        vehicle.primaryColor = functions.randomNumber(0, 159);
+        vehicle.pearlColor = functions.randomNumber(0, 159);
+    }
     alt.emit('setplayerinvehicle', player, vehicle);
     player.vehicles.push(vehicle);
 };
@@ -92,6 +94,6 @@ alt.on('setplayerstats', (player) => setplayerstats(player));
 alt.on('sethandledeath', (player) => sethandledeath(player));
 alt.on('setplayerinvehicle', (player, vehicle) => setplayerinvehicle(player, vehicle));
 alt.on("playerrequestWeapon", (player, name, ammo, equiped) => playerGiveWeapon(player, name, ammo, equiped));
-alt.onClient('playerSpawnVehicle', (player, model, position, rotation) => playerSpawnVehicle(player, model, position, rotation));
+alt.onClient('playerSpawnVehicle', (player, model, position, rotation, colorstate) => playerSpawnVehicle(player, model, position, rotation, colorstate));
 alt.onClient("playerrequestWeapon", (player, name, ammo, equiped) => alt.emit('playerrequestWeapon', player, name, ammo, equiped));
 alt.onClient("changemodel", (player, model) => changemodel(player, model));

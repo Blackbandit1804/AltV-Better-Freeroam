@@ -25,9 +25,9 @@ export function checkisland() {
 };
 
 export function loadipl(element) {
-    if (element["status"] == 0){
+    if (element["status"] == undefined){
         native.requestIpl(element["ipl"]);
-    } else {
+    } else if (element["status"] == 1) {
         native.removeIpl(element["ipl"]);
     }
 };
@@ -53,3 +53,5 @@ export default {
     doorcontrol,
     proploader
 };
+
+alt.log('Loaded: ./events/functions.js');

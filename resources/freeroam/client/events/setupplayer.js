@@ -50,3 +50,5 @@ alt.on('connectionComplete', () => {
     getdata(); 
     setambientzone();
 });
+
+alt.log('Loaded: ./events/setupplayer.js');

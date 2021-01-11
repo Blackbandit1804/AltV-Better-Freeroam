@@ -120,4 +120,4 @@ export default class Fingerpointing {
     }
 }
 
-
+alt.log('Loaded: ./events/fingerpointing.js');

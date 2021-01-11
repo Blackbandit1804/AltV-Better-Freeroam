@@ -78,3 +78,5 @@ function disconnect() {
 };
 
 alt.on('disconnect', disconnect);
+
+alt.log('Loaded: ./events/clientloops.js');

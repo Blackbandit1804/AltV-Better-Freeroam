@@ -31,3 +31,5 @@ alt.on('keyup', (key) => {
 });
 
 alt.on('disconnect', () => {view.destroy()})
+
+alt.log('Loaded: ./events/modelmenu.js');
