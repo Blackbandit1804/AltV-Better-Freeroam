@@ -19,8 +19,7 @@ function idlecam() {
 };
 
 function checkislandstate() {
-    let check = functions.checkisland();
-    if(check == true) {
+    if(functions.checkisland() == true) {
         //disable Waves
         native.setDeepOceanScaler(0.0);
     } else {
@@ -51,15 +50,9 @@ const electric = [
 function speedometer() {
     let vehicle = alt.Player.local.vehicle;
     if (vehicle != null) {
-        view.emit('status', true);
-        view.emit('speedometer:data', {
-            gear: parseInt(vehicle.gear),
-            rpm: parseInt((vehicle.rpm * 10000).toFixed(0)),
-            speed: parseInt((native.getEntitySpeed(vehicle.scriptID) * 2.23693).toFixed(0)),
-            isElectric: electric.includes(vehicle.model)
-        });
+        view.emit('speedometer:data', {enabled: true, gear: parseInt(vehicle.gear), rpm: parseInt((vehicle.rpm * 10000).toFixed(0)), speed: parseInt((native.getEntitySpeed(vehicle.scriptID) * 2.23693).toFixed(0)), isElectric: electric.includes(vehicle.model)});
     } else {
-        view.emit('status', false);
+        view.emit('speedometer:data', {enabled: false});
     };
 };
 

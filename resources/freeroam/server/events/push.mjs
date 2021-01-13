@@ -1,27 +1,22 @@
 import * as alt from 'alt';
 import * as constant from '../constants.mjs';
 
-const ipls = constant.ipls,
-    blip = constant.blip,
-    doors = constant.doors,
-    props = constant.props;
-
-const timeoffset = 1;
+const timeoffset = 0;
 
 function pushblips(player) {
-    alt.emitClient(player, "freeroam:setupblips", (blip));
+    alt.emitClient(player, "freeroam:setupblips", (constant.blip));
 };
 
 function pushipls(player) {
-    alt.emitClient(player, "freeroam:Interiors", (ipls));
+    alt.emitClient(player, "freeroam:Interiors", (constant.ipls));
 };
 
 function pushdoors(player) {
-    alt.emitClient(player, "freeroam:loaddoors", (doors));
+    alt.emitClient(player, "freeroam:loaddoors", (constant.doors));
 };
 
 function pushprops(player) {
-    alt.emitClient(player, "freeroam:proploader", (props));
+    alt.emitClient(player, "freeroam:proploader", (constant.props));
 };
 
 function pushdate(player) {
