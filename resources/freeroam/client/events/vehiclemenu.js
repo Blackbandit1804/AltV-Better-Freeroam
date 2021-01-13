@@ -29,11 +29,13 @@ view.on('menu', (toggle) => {
 });
 
 view.on('select', (model) => {
+    //custom vehicle colors on: true off: false
+    let colorstate = true;
     if (vehicles.length >= 1) {
         vehicles[0].destroy();
         vehicles.splice(0, 1);
     }
-    alt.emitServer('playerSpawnVehicle', model, player.pos, player.rot);
+    alt.emitServer('playerSpawnVehicle', model, player.pos, player.rot, colorstate);
     menu(false);
     alt.emit('drawNotification', 'CHAR_PEGASUS_DELIVERY', 'Notification', player.name, 'Your new Vehicle: ' + model);
 });
@@ -66,3 +68,5 @@ function setPedIntoVehicle(vehicle) {
 
 alt.on('disconnect', () => { view.destroy() })
 alt.onServer("setPedIntoVehicle", (vehicle) => setPedIntoVehicle(vehicle));
+
+alt.log('Loaded: ./events/vehiclemenu.js');

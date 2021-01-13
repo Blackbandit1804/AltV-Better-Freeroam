@@ -30,8 +30,7 @@ function setupblips(blip) {
 
 function playerstats() {
     //set Infinite Oxygen
-    let ped = native.playerPedId();
-    native.setPedMaxTimeUnderwater(ped, 9999999980506448000.0);
+    native.setPedMaxTimeUnderwater(native.playerPedId(), 9999999980506448000.0);
     native.setRunSprintMultiplierForPlayer(player, 1.05);
 };
 
@@ -44,9 +43,17 @@ function getdata() {
     alt.emitServer('getprops');
 };
 
+function showHelpText(){
+    alt.emit('drawNotification', 'CHAR_SOCIAL_CLUB', 'Notification', player.name, 'F1=Weapon Menu | F2=Car Spawner | F3=Model Changer');
+};
+
+alt.onServer('showHelpText', showHelpText);
 alt.onServer("freeroam:playerstats", playerstats);
 alt.onServer("freeroam:setupblips", setupblips);
+
 alt.on('connectionComplete', () => {
     getdata(); 
     setambientzone();
 });
+
+alt.log('Loaded: ./events/setupplayer.js');

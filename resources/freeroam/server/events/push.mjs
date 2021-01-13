@@ -1,52 +1,27 @@
 import * as alt from 'alt';
 import * as constant from '../constants.mjs';
 
-const ipls = constant.ipls,
-    blip = constant.blip,
-    doors = constant.doors,
-    props = constant.props;
-let currentDate,
-    year,
-    month,
-    date,
-    hour,
-    minute,
-    second;
-
-function resourcestart() {
-    currentDate = new Date();
-    year = currentDate.getFullYear();
-    month = currentDate.getMonth();
-    date = currentDate.getDate();
-    hour = currentDate.getHours();
-    minute = currentDate.getMinutes();
-    second = currentDate.getSeconds();
-};
+const timeoffset = 0;
 
 function pushblips(player) {
-    alt.emitClient(player, "freeroam:setupblips", (blip));
+    alt.emitClient(player, "freeroam:setupblips", (constant.blip));
 };
 
 function pushipls(player) {
-    alt.emitClient(player, "freeroam:Interiors", (ipls));
+    alt.emitClient(player, "freeroam:Interiors", (constant.ipls));
 };
 
 function pushdoors(player) {
-    alt.emitClient(player, "freeroam:loaddoors", (doors));
+    alt.emitClient(player, "freeroam:loaddoors", (constant.doors));
 };
 
 function pushprops(player) {
-    alt.emitClient(player, "freeroam:proploader", (props));
+    alt.emitClient(player, "freeroam:proploader", (constant.props));
 };
 
 function pushdate(player) {
-    currentDate = new Date();
-    date = currentDate.getDate();
-    hour = currentDate.getHours();
-    minute = currentDate.getMinutes();
-    second = currentDate.getSeconds();
-    //alt.log(date, month, year, hour, minute, second);
-    player.setDateTime(date, month, year, hour, minute, second);
+    let currentDate = new Date();
+    player.setDateTime(currentDate.getUTCDate(), currentDate.getUTCMonth(), currentDate.getUTCFullYear(), (currentDate.getUTCHours() + timeoffset), currentDate.getUTCMinutes(), currentDate.getUTCSeconds());
 };
 
 alt.onClient("getblips", pushblips);
@@ -54,4 +29,3 @@ alt.onClient("getipls", pushipls);
 alt.onClient("getdoors", pushdoors);
 alt.onClient("getcurrentdate", pushdate);
 alt.onClient("getprops", pushprops);
-alt.on('resourceStart', resourcestart);

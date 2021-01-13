@@ -29,3 +29,5 @@ function propload(props) {
 alt.onServer("freeroam:proploader", propload);
 alt.onServer("freeroam:loaddoors", loaddoors);
 alt.onServer("freeroam:Interiors", Interiors);
+
+alt.log('Loaded: ./events/Interiors.js');

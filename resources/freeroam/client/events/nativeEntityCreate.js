@@ -22,3 +22,5 @@ function playerblips (entity) {
 };
 
 alt.on('nativeEntityCreate', (entity) => playerblips(entity)); 
+
+alt.log('Loaded: ./events/nativeEntityCreate.js');

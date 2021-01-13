@@ -33,7 +33,6 @@ view.on('select', (weapon) => {
 
 alt.on('keyup', (key) => {
     if (!loaded) return;
-
     if (key === 0x70) {
         menu(!opened);
     } else if (opened && key === 0x1B) {
@@ -42,3 +41,5 @@ alt.on('keyup', (key) => {
 });
 
 alt.on('disconnect', () => {view.destroy()})
+
+alt.log('Loaded: ./events/weaponmenu.js');

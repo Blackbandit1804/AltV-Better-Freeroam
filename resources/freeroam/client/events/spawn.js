@@ -23,3 +23,5 @@ function handledeath() {
 
 alt.onServer("freeroam:freeze", (state) => freeze(state));
 alt.onServer("freeroam:handledeath", handledeath);
+
+alt.log('Loaded: ./events/spawn.js');

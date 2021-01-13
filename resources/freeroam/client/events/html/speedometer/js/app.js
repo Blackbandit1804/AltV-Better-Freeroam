@@ -2,6 +2,11 @@ $(() => {
     // speedometer
     if ($("#speedometer").length) {
         alt.on('speedometer:data', (data) => {
+            if (data.enabled == true) {
+                document.getElementById("container").style.visibility = "visible";
+            } else {
+                document.getElementById("container").style.visibility = "hidden";
+            }
             let speed = data.speed;
             let gear = data.gear;
             let rpm = data.rpm;
