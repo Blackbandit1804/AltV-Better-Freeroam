@@ -21,7 +21,7 @@ const player = alt.Player.local;
 
 //only simple notifications, because the complex notifications are broken 
 function drawNotification(imageName, headerMsg, detailsMsg, message, color, playername) {
-    alt.log(imageName, headerMsg, detailsMsg, message);
+    //alt.log(imageName, headerMsg, detailsMsg, message);
     native.beginTextCommandThefeedPost('STRING');
     if (playername) { message = playername + ': ' + message};
     native.addTextComponentSubstringPlayerName(message);
@@ -30,7 +30,7 @@ function drawNotification(imageName, headerMsg, detailsMsg, message, color, play
 };
 
 function showHelpText() {
-    drawNotification('CHAR_SOCIAL_CLUB', 'Notification', player.name, 'F1=Weapon Menu | F2=Car Spawner | F3=Model Changer', null);
+    drawNotification('CHAR_SOCIAL_CLUB', 'Notification', player.name, 'F1=Weapon Menu ~n~ F2=Car Spawner ~n~ F3=Model Changer', null);
 };
 
 alt.onServer('drawNotification', drawNotification);

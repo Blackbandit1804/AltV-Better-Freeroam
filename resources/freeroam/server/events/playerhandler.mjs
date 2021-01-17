@@ -9,7 +9,7 @@ function playerready(player) {
 	player.model = spawnModels[functions.getRandomListEntry(spawnModels)];
     spawnplayer(player);
     if(player !== undefined){
-        chat.broadcast(`${player.name} has joined the Server..  (${alt.Player.all.length} players online)`);
+        chat.broadcast(`${player.name} has joined the Server..  (${alt.Player.all.length} players online)`, 184);
     };
     alt.emitClient(player, 'showHelpText');
 };
@@ -73,7 +73,7 @@ function changemodel(player, model) {
 };
 
 function playerdisconnect(player, reason) {
-    chat.broadcast(`${player.name} has left the Server.. (${alt.Player.all.length -= 1} players online)`);
+    chat.broadcast(`${player.name} has left the Server.. (${alt.Player.all.length -= 1} players online)`, 6);
     alt.log(`${player.name} has leaved the server becauseof ${reason}`);
     player.vehicles.forEach(vehicle => {
         vehicle.destroy();
