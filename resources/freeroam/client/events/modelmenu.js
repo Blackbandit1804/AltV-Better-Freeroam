@@ -17,7 +17,7 @@ view.on('menu', (toggle) => {
 view.on('select', (model) => {
 	alt.emitServer("changemodel", model)
     menu(false);
-    alt.emit('drawNotification', 'CHAR_BLANK_ENTRY', 'Notification', player.name, 'Your new Playermodel: ' + model);
+    alt.emit('drawNotification', 'CHAR_BLANK_ENTRY', 'Notification', player.name, 'Your new Playermodel: ' + model, 40);
 });
 
 alt.on('keyup', (key) => {
