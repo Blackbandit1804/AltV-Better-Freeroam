@@ -28,12 +28,12 @@ alt.onClient('chatmessage', (player, msg) => {
         msg = msg.trim();
         if (msg.length <= 0) return;
         alt.log('[==> CHAT] ' + player.name + ': ' + msg);
-        alt.emitClient(null, 'drawNotification', 'CHAR_CHAT_CALL', 'Notification', player.name, msg);
+        alt.emitClient(null, 'drawNotification', 'CHAR_CHAT_CALL', 'Notification', player.name, msg, null, null);
     }
 }); 
 
 export function send(player, msg) {
-    alt.emitClient(player, 'drawNotification', 'CHAR_SOCIAL_CLUB', 'Notification', '', msg);
+    alt.emitClient(player, 'drawNotification', 'CHAR_SOCIAL_CLUB', 'Notification', '', msg, null, null);
 }
 
 export function broadcast(msg) {

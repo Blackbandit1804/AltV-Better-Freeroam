@@ -43,11 +43,6 @@ function getdata() {
     alt.emitServer('getprops');
 };
 
-function showHelpText(){
-    alt.emit('drawNotification', 'CHAR_SOCIAL_CLUB', 'Notification', player.name, 'F1=Weapon Menu | F2=Car Spawner | F3=Model Changer');
-};
-
-alt.onServer('showHelpText', showHelpText);
 alt.onServer("freeroam:playerstats", playerstats);
 alt.onServer("freeroam:setupblips", setupblips);
 
