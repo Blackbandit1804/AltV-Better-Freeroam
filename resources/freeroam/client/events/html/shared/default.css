@@ -140,10 +140,6 @@ body {
 	transform : scale(1.0);
 }
 
-.item img {
-	width : 164px;
-}
-
 .items hr::after {
 	content     : attr(data-content);
 	margin-left : 10px;
