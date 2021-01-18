@@ -43,12 +43,18 @@ function getdata() {
     alt.emitServer('getprops');
 };
 
+function sethudsettings() {
+    native.setMaxHealthHudDisplay(200);
+    native.setMaxArmourHudDisplay(100);
+};
+
 alt.onServer("freeroam:playerstats", playerstats);
 alt.onServer("freeroam:setupblips", setupblips);
 
 alt.on('connectionComplete', () => {
     getdata(); 
     setambientzone();
+    sethudsettings();
 });
 
 alt.log('Loaded: ./events/setupplayer.js');
