@@ -28,7 +28,7 @@ view.on('menu', (toggle) => {
 
 view.on('select', (weapon) => {
     alt.emitServer("playerrequestWeapon", weapon, 1500, false);
-    alt.emit('drawNotification', 'CHAR_AMMUNATION', 'Notification', player.name, 'Your new Weapon: ' + weapon);
+    alt.emit('drawNotification', 'CHAR_AMMUNATION', 'Notification', player.name, 'Your new Weapon: ' + weapon, 40);
 });
 
 alt.on('keyup', (key) => {

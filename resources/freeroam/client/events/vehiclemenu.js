@@ -37,7 +37,7 @@ view.on('select', (model) => {
     }
     alt.emitServer('playerSpawnVehicle', model, player.pos, player.rot, colorstate);
     menu(false);
-    alt.emit('drawNotification', 'CHAR_PEGASUS_DELIVERY', 'Notification', player.name, 'Your new Vehicle: ' + model);
+    alt.emit('drawNotification', 'CHAR_PEGASUS_DELIVERY', 'Notification', player.name, 'Your new Vehicle: ' + model, 40);
 });
 
 alt.on('keyup', (key) => {

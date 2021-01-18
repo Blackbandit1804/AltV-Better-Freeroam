@@ -1539,7 +1539,8 @@ export const licenseplate = [
 	"HXUSP",
 	"TJ0MC",
 	"KBUTR",
-	"A3DUL"
+	"A3DUL",
+	"Z0NXE"
 ];
 
 export default {

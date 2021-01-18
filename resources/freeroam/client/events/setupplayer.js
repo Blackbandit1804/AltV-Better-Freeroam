@@ -43,17 +43,18 @@ function getdata() {
     alt.emitServer('getprops');
 };
 
-function showHelpText(){
-    alt.emit('drawNotification', 'CHAR_SOCIAL_CLUB', 'Notification', player.name, 'F1=Weapon Menu | F2=Car Spawner | F3=Model Changer');
+function sethudsettings() {
+    native.setMaxHealthHudDisplay(200);
+    native.setMaxArmourHudDisplay(100);
 };
 
-alt.onServer('showHelpText', showHelpText);
 alt.onServer("freeroam:playerstats", playerstats);
 alt.onServer("freeroam:setupblips", setupblips);
 
 alt.on('connectionComplete', () => {
     getdata(); 
     setambientzone();
+    sethudsettings();
 });
 
 alt.log('Loaded: ./events/setupplayer.js');
